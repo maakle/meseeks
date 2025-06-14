@@ -1,10 +1,7 @@
-
-
-<p align="center"> <a href="http://nestjs.com/" target="blank"><img src="https://github.com/user-attachments/assets/39665bff-a4b3-46ea-9752-2e85b36b7bab" height="300"  alt="Nest Logo" /></a> </p> <p align="center"> A production-ready <a href="http://nodejs.org" target="_blank">Node.js</a> WhatsApp chatbot built with <a href="https://nestjs.com/" target="_blank">NestJS</a>, leveraging the <a href="https://developers.facebook.com/docs/whatsapp/cloud-api" target="_blank">WhatsApp Cloud API</a> for direct integration with WhatsApp, GPT-4o for conversational intelligence and Redis (free tier from Upstash) for context management. </p>
-
+# Samwise
 
 ## Step-by-Step Guide
-For a detailed, step-by-step guide on building this chatbot, check out:
+For a detailed, step-by-step guide on building this samwise, check out:
 
 ### NestJS WhatsApp Chatbot with GPT-4o
 [<img width="960" alt="WhatsApp AI Chatbot" src="https://github.com/user-attachments/assets/ed05d93e-613a-41db-8514-b12d722fe246">](https://www.youtube.com/watch?v=Nn9JJ8IdxM8&list=PLX8Kj-tc4dHallx-LJ-5uu894S7f52xIC&index=1)
