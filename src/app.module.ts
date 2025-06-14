@@ -7,10 +7,12 @@ import { OpenaiModule } from './openai/openai.module';
 import { UserContextModule } from './user-context/user-context.module';
 import { StabilityaiModule } from './stabilityai/stabilityai.module';
 import { AudioModule } from './audio/audio.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    PrismaModule,
     WhatsappModule,
     OpenaiModule,
     UserContextModule,
