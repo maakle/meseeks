@@ -25,8 +25,9 @@ export class WhatsappService {
     userInput: string,
     messageID: string,
   ) {
+    const phoneNumber = `+${messageSender}`;
     const aiResponse = await this.openaiService.generateAIResponse(
-      messageSender,
+      phoneNumber,
       userInput,
     );
 

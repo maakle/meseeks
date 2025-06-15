@@ -6,6 +6,7 @@ import { WhatsappService } from './whatsapp.service';
 import { AudioService } from 'src/audio/audio.service';
 import { StabilityaiService } from 'src/stabilityai/stabilityai.service';
 import { OpenaiService } from 'src/openai/openai.service';
+import { UserService } from 'src/user/user.service';
 
 @Controller('whatsapp')
 export class WhatsappController {
@@ -14,6 +15,7 @@ export class WhatsappController {
     private readonly stabilityaiService: StabilityaiService,
     private readonly audioService: AudioService,
     private readonly openaiService: OpenaiService,
+    private readonly userService: UserService,
   ) {}
 
   @Get('webhook')
@@ -44,6 +46,7 @@ export class WhatsappController {
     const messageSender = message.from;
     const messageID = message.id;
 
+    // Get or create user
     await this.whatsAppService.markMessageAsRead(messageID);
 
     switch (message.type) {
@@ -86,8 +89,9 @@ export class WhatsappController {
           return;
         }
 
+        const phoneNumber = `+${messageSender}`;
         const aiResponse = await this.openaiService.generateAIResponse(
-          messageSender,
+          phoneNumber,
           transcribedSpeech.data,
         );
 

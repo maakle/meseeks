@@ -2,6 +2,6 @@ import { Module } from '@nestjs/common';
 import { AudioService } from './audio.service';
 
 @Module({
-  providers: [AudioService]
+  providers: [AudioService],
 })
 export class AudioModule {}

@@ -4,10 +4,10 @@ import { AppService } from './app.service';
 import { WhatsappModule } from './whatsapp/whatsapp.module';
 import { ConfigModule } from '@nestjs/config';
 import { OpenaiModule } from './openai/openai.module';
-import { UserContextModule } from './user-context/user-context.module';
 import { StabilityaiModule } from './stabilityai/stabilityai.module';
 import { AudioModule } from './audio/audio.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -15,9 +15,9 @@ import { PrismaModule } from './prisma/prisma.module';
     PrismaModule,
     WhatsappModule,
     OpenaiModule,
-    UserContextModule,
     StabilityaiModule,
     AudioModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
