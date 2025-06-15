@@ -24,4 +24,31 @@ model Message {
   user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Organization {
+  id          String   @id @default(cuid())
+  name        String
+  apiKeys     ApiKey[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ApiKey {
+  id            String      @id @default(cuid())
+  name          String      
+  prefix        String      
+  hashedKey     String      
+  organization  Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  lastUsedAt    DateTime?   
+  expiresAt     DateTime?   
+  isActive      Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([prefix])
+  @@index([organizationId])
 }
