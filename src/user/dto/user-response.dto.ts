@@ -7,9 +7,9 @@ export type UserResponseDto = {
   updatedAt: Date;
 };
 
-export const mapToUserResponseDto = (user: User): UserResponseDto => ({
-  id: user.id,
-  phoneNumber: user.phoneNumber,
-  createdAt: user.createdAt,
-  updatedAt: user.updatedAt,
+export const mapToUserResponseDto = (prisma: User): UserResponseDto => ({
+  id: prisma.id,
+  phoneNumber: prisma.phoneNumber,
+  createdAt: prisma.createdAt,
+  updatedAt: prisma.updatedAt,
 });
