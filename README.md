@@ -1,43 +1,39 @@
-# Samwise
+# Messeks
 
-## Step-by-Step Guide
-For a detailed, step-by-step guide on building this samwise, check out:
+Before you proceed, please first watch this:
 
-### NestJS WhatsApp Chatbot with GPT-4o
-[<img width="960" alt="WhatsApp AI Chatbot" src="https://github.com/user-attachments/assets/ed05d93e-613a-41db-8514-b12d722fe246">](https://www.youtube.com/watch?v=Nn9JJ8IdxM8&list=PLX8Kj-tc4dHallx-LJ-5uu894S7f52xIC&index=1)
+### What is this project?
 
-### Text-To-Image generation with Stable Diffusion model
-[<img width="960" alt="WhatsApp AI Chatbot" src="https://github.com/user-attachments/assets/7c164df6-40df-4f15-84a3-32e04f196412">](https://www.youtube.com/watch?v=gxmlZgVjnv8&list=PLX8Kj-tc4dHallx-LJ-5uu894S7f52xIC&index=4)
+[![WhatsApp AI Chatbot](https://img.youtube.com/vi/l5wvqKcqL7c/maxresdefault.jpg)](https://www.youtube.com/watch?v=l5wvqKcqL7c)
 
-**Key Features:**
+### In a nutshell
 
-* **GPT-4o Integration:** Utilises the advanced capabilities of GPT-4o for natural language understanding and generation, ensuring engaging and intelligent conversations.
-* **Text-To-Image Generation:** Utilises Stability AI's `Stable Diffusion` model for text-to-image generation.
-* **Redis for Context:** Stores conversation context in Redis, enabling the chatbot to maintain a cohesive dialogue and provide context-aware responses.
-* **NestJS Framework:** Built on the robust and scalable NestJS framework, providing a well-structured and maintainable codebase.
-* **Production-Ready:** Designed with production environments in mind, ensuring security, stability, scalability, and reliability.
+This API summons meseeks via a REST API. You can give them a simple task and watch them complete it by reaching out to their target via WhatsApp.
 
-**Getting Started:**
+But remember, keep your requests simple. They're not gods!
+
+
+## Getting Started
 
 1. **Install Node.js:** Download and install the latest version of Node.js from [https://nodejs.org/](https://nodejs.org/).
 
 2. **Install Dependencies:**
 
    ```bash
-   npm install
+   pnpm install
    ```
 
 3. **Configure Environment Variables:**
 
-    - Set up environment variables for API keys (OpenAI, WhatsApp API provider), database credentials (Redis), and other necessary configurations.
+    - Set up environment variables for API keys (OpenAI, WhatsApp API provider), database credentials (Postgres), and other necessary configurations.
 
-4. **Run the Chatbot:**
+4. **Run the API:**
 
     - **Development Mode:**
       ```bash
-      npm run start:dev
+      pnpm dev
       ```
-      This command starts the chatbot in development mode with file watching for changes.
+      This command starts the app in development mode with file watching for changes.
 
     - **Debug Mode:**
       ```bash
@@ -73,26 +69,7 @@ For a detailed, step-by-step guide on building this samwise, check out:
    npm run test:e2e
    ```
 
-**Support and Contribution:**
+## Support and Contribution
 
 We welcome contributions and feedback. If you encounter issues or have suggestions, please open an issue on GitHub.
 
-**Acknowledgements:**
-
-This chatbot is made possible by the incredible work of the following projects:
-
-* [NestJS](https://nestjs.com/)
-* [WhatsApp Cloud API](https://developers.facebook.com/docs/whatsapp/cloud-api/)
-* [GPT-4o](https://platform.openai.com/docs/models/gpt-4o)
-* [Upstash Redis](https://upstash.com/)
-* [ioredis](https://github.com/luin/ioredis)
-* [openai](https://github.com/openai/openai-node)
-
-**Join the Conversation:**
-
-More features to be added to the chatbot, stay in the loop:
-
-* [My Youtube Channel](https://www.youtube.com/channel/UChZk6jLmTKn2BINb9o51otQ)
-* [Say Hi On LinkedIn](https://www.linkedin.com/in/tafadzwa-demba/)
-
-**Let's build a smarter and more engaging WhatsApp experience!** 
