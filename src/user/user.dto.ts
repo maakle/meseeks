@@ -18,7 +18,7 @@ export class UserResponseDto {
   }
 }
 
-export class UserWithConversationsResponseDto extends UserResponseDto {
+export class UserWithRelationsResponseDto extends UserResponseDto {
   conversations: Array<{
     id: string;
     content: string;

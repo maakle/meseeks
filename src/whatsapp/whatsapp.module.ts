@@ -5,10 +5,10 @@ import { OpenaiService } from '@/openai/openai.service';
 import { StabilityaiService } from '@/stabilityai/stabilityai.service';
 import { AudioService } from '@/audio/audio.service';
 import { UserService } from '@/user/user.service';
-import { ConversationModule } from '@/conversation/conversation.module';
+import { MessageModule } from '@/message/message.module';
 
 @Module({
-  imports: [ConversationModule],
+  imports: [MessageModule],
   controllers: [WhatsappController],
   providers: [
     OpenaiService,

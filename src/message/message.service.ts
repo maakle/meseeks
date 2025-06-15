@@ -2,39 +2,37 @@ import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
-export class ConversationService {
-  private readonly logger: Logger = new Logger(ConversationService.name);
+export class MessageService {
+  private readonly logger: Logger = new Logger(MessageService.name);
 
   constructor(private readonly prisma: PrismaService) {}
 
-  async createConversationMessage(
+  async createMessage(
     content: string,
     role: 'user' | 'assistant',
     userId: string,
-  ): Promise<string> {
+  ) {
     try {
-      await this.prisma.conversation.create({
+      return await this.prisma.message.create({
         data: {
           content,
           role,
           userId,
         },
       });
-
-      return 'Message Saved!';
     } catch (error) {
       this.logger.error('Error Saving Message', error);
       return 'Error Saving Message';
     }
   }
 
-  async createAndFetchConversationMessages(
+  async createAndManyFetchMessages(
     content: string,
     role: 'user' | 'assistant',
     userId: string,
   ): Promise<Array<{ role: string; content: string }>> {
     try {
-      await this.prisma.conversation.create({
+      await this.prisma.message.create({
         data: {
           content,
           role,
@@ -42,12 +40,12 @@ export class ConversationService {
         },
       });
 
-      const conversations = await this.prisma.conversation.findMany({
+      const messages = await this.prisma.message.findMany({
         where: { userId },
         orderBy: { createdAt: 'asc' },
       });
 
-      return conversations.map((conv) => ({
+      return messages.map((conv) => ({
         role: conv.role,
         content: conv.content,
       }));

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import { catchError, lastValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
-import { OpenaiService } from 'src/openai/openai.service';
+import { OpenaiService } from '../../openai/openai.service';
 import axios, { AxiosRequestConfig } from 'axios';
 import * as path from 'path';
 import { writeFileSync, existsSync, mkdirSync } from 'fs';
