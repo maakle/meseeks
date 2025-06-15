@@ -7,6 +7,7 @@ import { AudioService } from 'src/audio/audio.service';
 import { StabilityaiService } from 'src/stabilityai/stabilityai.service';
 import { OpenaiService } from 'src/openai/openai.service';
 import { UserService } from 'src/user/user.service';
+import { convertToIntlPhonenumber } from './util';
 
 @Controller('whatsapp')
 export class WhatsappController {
@@ -46,7 +47,6 @@ export class WhatsappController {
     const messageSender = message.from;
     const messageID = message.id;
 
-    // Get or create user
     await this.whatsAppService.markMessageAsRead(messageID);
 
     switch (message.type) {
@@ -89,7 +89,7 @@ export class WhatsappController {
           return;
         }
 
-        const phoneNumber = `+${messageSender}`;
+        const phoneNumber = convertToIntlPhonenumber(messageSender);
         const aiResponse = await this.openaiService.generateAIResponse(
           phoneNumber,
           transcribedSpeech.data,

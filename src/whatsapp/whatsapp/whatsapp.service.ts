@@ -5,6 +5,7 @@ import { OpenaiService } from 'src/openai/openai.service';
 import axios, { AxiosRequestConfig } from 'axios';
 import * as path from 'path';
 import { writeFileSync, existsSync, mkdirSync } from 'fs';
+import { convertToIntlPhonenumber } from './util';
 
 @Injectable()
 export class WhatsappService {
@@ -25,7 +26,7 @@ export class WhatsappService {
     userInput: string,
     messageID: string,
   ) {
-    const phoneNumber = `+${messageSender}`;
+    const phoneNumber = convertToIntlPhonenumber(messageSender);
     const aiResponse = await this.openaiService.generateAIResponse(
       phoneNumber,
       userInput,
