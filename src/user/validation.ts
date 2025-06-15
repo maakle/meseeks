@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
 export const phoneNumberRegex = /^\+[1-9]\d{1,14}$/;
 
