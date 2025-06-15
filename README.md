@@ -4,7 +4,7 @@ Before you proceed, please first watch this:
 
 ### What is this project?
 
-[![WhatsApp AI Chatbot](https://img.youtube.com/vi/l5wvqKcqL7c/maxresdefault.jpg)](https://www.youtube.com/watch?v=l5wvqKcqL7c)
+[![WhatsApp AI Chatbot](https://i.imgur.com/QaeRc4l.png)](https://www.youtube.com/watch?v=l5wvqKcqL7c)
 
 ### In a nutshell
 
