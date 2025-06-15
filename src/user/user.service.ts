@@ -36,10 +36,10 @@ export class UserService {
   }
 
   @HandleServiceError(UserService.name)
-  async upsertUser(upsertUserDto: UpsertUserDto): Promise<UserResponseDto> {
+  async upsertUser(dto: UpsertUserDto): Promise<UserResponseDto> {
     const user = await this.prisma.user.upsert({
-      where: { phoneNumber: upsertUserDto.phoneNumber },
-      create: { phoneNumber: upsertUserDto.phoneNumber },
+      where: { phoneNumber: dto.phoneNumber },
+      create: { phoneNumber: dto.phoneNumber },
       update: {},
     });
 

@@ -15,7 +15,7 @@ export class UserController {
 
   @Post()
   @RequireApiKey()
-  async createUser(@Body() userData: UpsertUserDto) {
-    return this.userService.upsertUser(userData);
+  async createUser(@Body() dto: UpsertUserDto) {
+    return this.userService.upsertUser(dto);
   }
 }
