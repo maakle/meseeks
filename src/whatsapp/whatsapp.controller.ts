@@ -1,5 +1,6 @@
 import { Body, Controller, Get, HttpCode, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 
 import * as process from 'node:process';
 import { WhatsappService } from './whatsapp.service';
@@ -9,6 +10,7 @@ import { OpenaiService } from '../openai/openai.service';
 import { UserService } from '../user/user.service';
 import { convertToIntlPhonenumber } from './util';
 
+@ApiTags('whatsapp')
 @Controller('whatsapp')
 export class WhatsappController {
   constructor(
@@ -20,6 +22,24 @@ export class WhatsappController {
   ) {}
 
   @Get('webhook')
+  @ApiOperation({ summary: 'Verify WhatsApp webhook' })
+  @ApiQuery({
+    name: 'hub.mode',
+    required: true,
+    description: 'The mode of the webhook verification',
+  })
+  @ApiQuery({
+    name: 'hub.challenge',
+    required: true,
+    description: 'The challenge string to verify the webhook',
+  })
+  @ApiQuery({
+    name: 'hub.verify_token',
+    required: true,
+    description: 'The verification token',
+  })
+  @ApiResponse({ status: 200, description: 'Webhook verification successful' })
+  @ApiResponse({ status: 400, description: 'Invalid verification request' })
   whatsappVerificationChallenge(@Req() request: Request) {
     const mode = request.query['hub.mode'];
     const challenge = request.query['hub.challenge'];
@@ -39,6 +59,9 @@ export class WhatsappController {
 
   @Post('webhook')
   @HttpCode(200)
+  @ApiOperation({ summary: 'Handle incoming WhatsApp messages' })
+  @ApiResponse({ status: 200, description: 'Message processed successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid message format' })
   async handleIncomingWhatsappMessage(@Body() request: any) {
     const { messages } = request?.entry?.[0]?.changes?.[0].value ?? {};
     if (!messages) return;
