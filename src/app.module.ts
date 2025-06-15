@@ -8,6 +8,7 @@ import { StabilityaiModule } from './stabilityai/stabilityai.module';
 import { AudioModule } from './audio/audio.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UserModule } from './user/user.module';
+import { ConversationModule } from './conversation/conversation.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from './user/user.module';
     StabilityaiModule,
     AudioModule,
     UserModule,
+    ConversationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

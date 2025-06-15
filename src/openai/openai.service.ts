@@ -1,10 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OpenAI } from 'openai';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '@/user/user.service';
+import { ConversationService } from '@/conversation/conversation.service';
 
 @Injectable()
 export class OpenaiService {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly conversationService: ConversationService,
+  ) {}
 
   private readonly openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -40,11 +44,12 @@ export class OpenaiService {
       // Create user if not exists
       const user = await this.userService.upsertUser({ phoneNumber });
 
-      const userContext = await this.userService.createAndFetchContext(
-        userInput,
-        'user',
-        user.id,
-      );
+      const userContext =
+        await this.conversationService.createAndFetchConversationMessages(
+          userInput,
+          'user',
+          user.id,
+        );
 
       const response = await this.openai.chat.completions.create({
         messages: [
@@ -59,7 +64,11 @@ export class OpenaiService {
 
       const aiResponse = response.choices[0].message.content;
 
-      await this.userService.saveToContext(aiResponse, 'assistant', user.id);
+      await this.conversationService.createConversationMessage(
+        aiResponse,
+        'assistant',
+        user.id,
+      );
 
       return aiResponse;
     } catch (error) {
