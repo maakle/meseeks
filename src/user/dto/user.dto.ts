@@ -17,12 +17,8 @@ export interface IUserWithConversations extends IUser {
   }>;
 }
 
-export class CreateUserDto {
+export class UpsertUserDto {
   phoneNumber: string;
-}
-
-export class UpdateUserDto {
-  phoneNumber?: string;
 }
 
 export class UserResponseDto implements IUser {

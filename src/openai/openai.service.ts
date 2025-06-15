@@ -4,7 +4,7 @@ import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class OpenaiService {
-  constructor(private readonly context: UserService) {}
+  constructor(private readonly userService: UserService) {}
 
   private readonly openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -37,12 +37,14 @@ export class OpenaiService {
       
       Remember to keep the interactions human-like, personable, and infused with creativity while maintaining a professional demeanor. Your primary objective is to make the conversation enjoyable.`;
 
-      const userContext = await this.context.saveAndFetchContext(
+      // Create user if not exists
+      const user = await this.userService.upsertUser({ phoneNumber });
+
+      const userContext = await this.userService.createAndFetchContext(
         userInput,
         'user',
-        phoneNumber,
+        user.id,
       );
-      this.logger.log(userContext);
 
       const response = await this.openai.chat.completions.create({
         messages: [
@@ -57,7 +59,7 @@ export class OpenaiService {
 
       const aiResponse = response.choices[0].message.content;
 
-      await this.context.saveToContext(aiResponse, 'assistant', phoneNumber);
+      await this.userService.saveToContext(aiResponse, 'assistant', user.id);
 
       return aiResponse;
     } catch (error) {
