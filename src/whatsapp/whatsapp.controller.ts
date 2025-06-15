@@ -3,10 +3,10 @@ import { Request } from 'express';
 
 import * as process from 'node:process';
 import { WhatsappService } from './whatsapp.service';
-import { AudioService } from '../../audio/audio.service';
-import { StabilityaiService } from '../../stabilityai/stabilityai.service';
-import { OpenaiService } from '../../openai/openai.service';
-import { UserService } from '../../user/user.service';
+import { AudioService } from '../audio/audio.service';
+import { StabilityaiService } from '../stabilityai/stabilityai.service';
+import { OpenaiService } from '../openai/openai.service';
+import { UserService } from '../user/user.service';
 import { convertToIntlPhonenumber } from './util';
 
 @Controller('whatsapp')

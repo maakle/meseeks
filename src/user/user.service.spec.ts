@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from './user.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserNotFoundError } from './user.errors';
+import { UserNotFoundError } from './errors';
 import { Logger } from '@nestjs/common';
 
 describe('UserService', () => {

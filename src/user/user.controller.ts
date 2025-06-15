@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UpsertUserDto } from './user.dto';
+import { CreateUserInput } from './validation';
 
 @Controller('users')
 export class UserController {
@@ -12,7 +12,7 @@ export class UserController {
   }
 
   @Post()
-  async createUser(@Body() userData: UpsertUserDto) {
+  async createUser(@Body() userData: CreateUserInput) {
     return this.userService.upsertUser(userData);
   }
 }

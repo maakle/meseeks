@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { WhatsappService } from './whatsapp.service';
-import { OpenaiService } from '../../openai/openai.service';
+import { OpenaiService } from '../openai/openai.service';
 
 describe('WhatsappService', () => {
   let service: WhatsappService;

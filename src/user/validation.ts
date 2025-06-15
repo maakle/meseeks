@@ -8,14 +8,4 @@ export const createUserSchema = z.object({
   }),
 });
 
-export const updateUserSchema = z.object({
-  phoneNumber: z
-    .string()
-    .regex(phoneNumberRegex, {
-      message: 'Phone number must be in E.164 format (e.g., +1234567890)',
-    })
-    .optional(),
-});
-
 export type CreateUserInput = z.infer<typeof createUserSchema>;
-export type UpdateUserInput = z.infer<typeof updateUserSchema>;
