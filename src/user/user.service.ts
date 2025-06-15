@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { UpsertUserDto, UserResponseDto } from './dto';
+import { UpsertUserDto } from './dto/upsert-user';
 import { HandleServiceError } from '../common/decorators/error-handler.decorator';
 import { UserNotFoundError } from './errors';
+import { mapToUserResponseDto, UserResponseDto } from './dto/user-response.dto';
 
 @Injectable()
 export class UserService {
@@ -18,7 +19,7 @@ export class UserService {
       throw new UserNotFoundError(id, 'id');
     }
 
-    return new UserResponseDto(user);
+    return mapToUserResponseDto(user);
   }
 
   @HandleServiceError(UserService.name)
@@ -31,7 +32,7 @@ export class UserService {
       throw new UserNotFoundError(phoneNumber, 'phoneNumber');
     }
 
-    return new UserResponseDto(user);
+    return mapToUserResponseDto(user);
   }
 
   @HandleServiceError(UserService.name)
@@ -42,6 +43,6 @@ export class UserService {
       update: {},
     });
 
-    return new UserResponseDto(user);
+    return mapToUserResponseDto(user);
   }
 }

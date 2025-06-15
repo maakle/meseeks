@@ -7,5 +7,3 @@ export const createUserSchema = z.object({
     message: 'Phone number must be in E.164 format (e.g., +1234567890)',
   }),
 });
-
-export type CreateUserInput = z.infer<typeof createUserSchema>;

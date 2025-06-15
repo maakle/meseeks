@@ -1,15 +1,15 @@
 import { User } from 'generated/prisma/client';
 
-export class UserResponseDto {
+export type UserResponseDto = {
   id: string;
   phoneNumber: string;
   createdAt: Date;
   updatedAt: Date;
+};
 
-  constructor(user: User) {
-    this.id = user.id;
-    this.phoneNumber = user.phoneNumber;
-    this.createdAt = user.createdAt;
-    this.updatedAt = user.updatedAt;
-  }
-}
+export const mapToUserResponseDto = (user: User): UserResponseDto => ({
+  id: user.id,
+  phoneNumber: user.phoneNumber,
+  createdAt: user.createdAt,
+  updatedAt: user.updatedAt,
+});
