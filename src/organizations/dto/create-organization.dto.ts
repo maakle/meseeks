@@ -1,4 +1,6 @@
-import { z } from 'zod/v4';
-import { createOrganizationSchema } from '../validation';
+import { CreateOrganizationSchema } from '../validation';
+import { createZodDto } from 'nestjs-zod';
 
-export type CreateOrganizationDto = z.infer<typeof createOrganizationSchema>;
+export class CreateOrganizationDto extends createZodDto(
+  CreateOrganizationSchema,
+) {}

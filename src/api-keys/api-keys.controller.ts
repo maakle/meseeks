@@ -7,13 +7,9 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
-  UsePipes,
 } from '@nestjs/common';
 import { ApiKeysService } from './api-keys.service';
-
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ZodValidationPipe } from '../common/pipes/zod-validation.pipe';
-import { createApiKeySchema } from './validation';
 import { CreateApiKeyDto } from './dto/create-api-key.dto';
 import { ApiKeyResponseDto } from './dto/api-key-response.dto';
 
@@ -23,7 +19,6 @@ export class ApiKeysController {
   constructor(private readonly apiKeysService: ApiKeysService) {}
 
   @Post()
-  @UsePipes(new ZodValidationPipe(createApiKeySchema))
   @ApiOperation({ summary: 'Create a new API key' })
   @ApiResponse({ status: 201, description: 'API key created successfully' })
   @ApiResponse({ status: 400, description: 'Bad request' })

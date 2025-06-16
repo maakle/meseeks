@@ -7,14 +7,11 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
-  UsePipes,
 } from '@nestjs/common';
 import { OrganizationsService } from './organizations.service';
 
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ZodValidationPipe } from '../common/pipes/zod-validation.pipe';
 import { OrganizationResponseDto } from './dto/organization-response.dto';
-import { createOrganizationSchema } from './validation';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 
 @ApiTags('organizations')
@@ -23,7 +20,6 @@ export class OrganizationsController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
   @Post()
-  @UsePipes(new ZodValidationPipe(createOrganizationSchema))
   @ApiOperation({ summary: 'Create a new organization' })
   @ApiResponse({
     status: 201,

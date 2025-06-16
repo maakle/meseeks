@@ -1,4 +1,4 @@
-import { z } from 'zod/v4';
-import { createApiKeySchema } from '../validation';
+import { CreateApiKeySchema } from '../validation';
+import { createZodDto } from 'nestjs-zod';
 
-export type CreateApiKeyDto = z.infer<typeof createApiKeySchema>;
+export class CreateApiKeyDto extends createZodDto(CreateApiKeySchema) {}

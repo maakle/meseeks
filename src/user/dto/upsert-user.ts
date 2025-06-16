@@ -1,4 +1,4 @@
-import z from 'zod/v4';
-import { createUserSchema } from '../validation';
+import { CreateUserSchema } from '../validation';
+import { createZodDto } from 'nestjs-zod';
 
-export type UpsertUserDto = z.infer<typeof createUserSchema>;
+export class UpsertUserDto extends createZodDto(CreateUserSchema) {}

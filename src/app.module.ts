@@ -11,6 +11,9 @@ import { AuthModule } from './auth/auth.module';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { ApiKeysModule } from './api-keys/api-keys.module';
 
+import { ZodValidationPipe } from 'nestjs-zod';
+import { APP_PIPE } from '@nestjs/core';
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -26,6 +29,11 @@ import { ApiKeysModule } from './api-keys/api-keys.module';
     ApiKeysModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useClass: ZodValidationPipe,
+    },
+  ],
 })
 export class AppModule {}

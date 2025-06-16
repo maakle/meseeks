@@ -1,5 +1,5 @@
-import { z } from 'zod/v4';
+import { z } from 'zod';
 
-export const createOrganizationSchema = z.object({
+export const CreateOrganizationSchema = z.object({
   name: z.string().min(1, 'Organization name is required'),
 });
