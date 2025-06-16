@@ -7,8 +7,8 @@ export const ApiKeyResponseSchema = z.object({
   name: z.string(),
   prefix: z.string(),
   organizationId: z.string(),
-  lastUsedAt: z.string().datetime().optional(),
-  expiresAt: z.string().datetime().optional(),
+  lastUsedAt: z.string().datetime().nullable(),
+  expiresAt: z.string().datetime().nullable(),
   isActive: z.boolean(),
 });
 
