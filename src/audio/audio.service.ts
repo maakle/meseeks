@@ -38,7 +38,7 @@ export class AudioService {
       responseType: 'arraybuffer',
     };
     try {
-      const folderName = process.env.AUDIO_FILES_FOLDER;
+      const folderName = process.env.AUDIO_FILES_FOLDER || 'audio-files';
       const fileName = `${Date.now()}.ogg`;
 
       const folderPath = path.join(process.cwd(), folderName);

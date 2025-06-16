@@ -4,6 +4,10 @@ import { catchError, lastValueFrom, map } from 'rxjs';
 import * as fs from 'fs';
 import { join } from 'path';
 
+interface ImageArtifact {
+  base64: string;
+}
+
 @Injectable()
 export class StabilityaiService {
   private readonly httpService = new HttpService();
@@ -58,15 +62,17 @@ export class StabilityaiService {
         fs.mkdirSync(folderPath);
       }
 
-      imageGenerationResponse.artifacts.forEach((image, index) => {
-        const now = new Date();
-        const fileName = `v1_txt2img_${now.getTime()}_${index}.png`;
-        fs.writeFileSync(
-          `${folderPath}/${fileName}`,
-          Buffer.from(image.base64, 'base64'),
-        );
-        fileNames.push(fileName);
-      });
+      imageGenerationResponse.artifacts.forEach(
+        (image: ImageArtifact, index: number) => {
+          const now = new Date();
+          const fileName = `v1_txt2img_${now.getTime()}_${index}.png`;
+          fs.writeFileSync(
+            `${folderPath}/${fileName}`,
+            Buffer.from(image.base64, 'base64'),
+          );
+          fileNames.push(fileName);
+        },
+      );
 
       return fileNames;
     } catch (e) {

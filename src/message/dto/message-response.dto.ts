@@ -1,19 +1,18 @@
 import { Message } from 'generated/prisma/client';
+import { createZodDto } from 'nestjs-zod';
+import { z } from 'zod';
 
-export type MessageResponseDto = {
-  id: string;
-  content: string;
-  role: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-export const mapToMessageResponseDto = (
-  prisma: Message,
-): MessageResponseDto => ({
-  id: prisma.id,
-  content: prisma.content,
-  role: prisma.role,
-  createdAt: prisma.createdAt,
-  updatedAt: prisma.updatedAt,
+export const MessageResponseSchema = z.object({
+  id: z.string(),
+  content: z.string(),
+  role: z.string(),
 });
+
+export class MessageResponseDto extends createZodDto(MessageResponseSchema) {}
+
+export const mapToMessageResponseDto = (prisma: Message): MessageResponseDto =>
+  MessageResponseDto.create({
+    id: prisma.id,
+    content: prisma.content,
+    role: prisma.role,
+  });
