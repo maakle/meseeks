@@ -13,6 +13,9 @@ import { OrganizationsService } from './organizations.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { OrganizationResponseDto } from './dto/organization-response.dto';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
+import { zodToOpenAPI } from 'nestjs-zod';
+import { OrganizationResponseSchema } from './schema';
+import z from 'zod';
 
 @ApiTags('organizations')
 @Controller('organizations')
@@ -24,6 +27,7 @@ export class OrganizationsController {
   @ApiResponse({
     status: 201,
     description: 'Organization created successfully',
+    schema: zodToOpenAPI(OrganizationResponseSchema),
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
   create(@Body() dto: CreateOrganizationDto): Promise<OrganizationResponseDto> {
@@ -32,14 +36,22 @@ export class OrganizationsController {
 
   @Get()
   @ApiOperation({ summary: 'Get all organizations' })
-  @ApiResponse({ status: 200, description: 'Return all organizations' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return all organizations',
+    schema: zodToOpenAPI(z.array(OrganizationResponseSchema)),
+  })
   findAll(): Promise<OrganizationResponseDto[]> {
     return this.organizationsService.findAll();
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get an organization by id' })
-  @ApiResponse({ status: 200, description: 'Return the organization' })
+  @ApiResponse({
+    status: 200,
+    description: 'Return the organization',
+    schema: zodToOpenAPI(OrganizationResponseSchema),
+  })
   @ApiResponse({ status: 404, description: 'Organization not found' })
   findOne(@Param('id') id: string): Promise<OrganizationResponseDto> {
     return this.organizationsService.findOne(id);
@@ -51,6 +63,7 @@ export class OrganizationsController {
   @ApiResponse({
     status: 204,
     description: 'Organization deleted successfully',
+    schema: zodToOpenAPI(OrganizationResponseSchema),
   })
   @ApiResponse({ status: 404, description: 'Organization not found' })
   remove(@Param('id') id: string): Promise<OrganizationResponseDto> {

@@ -106,7 +106,7 @@ export class WhatsappService {
 
       const fileName = `${fileID}.${fileExtension}`;
 
-      const folderName = process.env.AUDIO_FILES_FOLDER;
+      const folderName = process.env.AUDIO_FILES_FOLDER || 'audio-files';
 
       const folderPath = path.join(process.cwd(), folderName);
       const filePath = path.join(folderPath, fileName);

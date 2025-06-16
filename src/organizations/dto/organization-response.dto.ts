@@ -1,21 +1,20 @@
-import {
-  ApiKeyResponseDto,
-  mapToApiKeyResponseDto,
-} from '@/api-keys/dto/api-key-response.dto';
+import { mapToApiKeyResponseDto } from '@/api-keys/dto/api-key-response.dto';
 import { Organization, ApiKey } from 'generated/prisma/client';
+import { createZodDto } from 'nestjs-zod';
+import { CreateOrganizationSchema } from '../schema';
 
-export type OrganizationResponseDto = {
-  id: string;
-  name: string;
-  apiKeys: ApiKeyResponseDto[];
-};
+export class OrganizationResponseDto extends createZodDto(
+  CreateOrganizationSchema,
+) {}
 
 type OrganizationWithApiKeys = Organization & { apiKeys: ApiKey[] };
 
 export const mapToOrganizationResponseDto = (
   prisma: OrganizationWithApiKeys,
-): OrganizationResponseDto => ({
-  id: prisma.id,
-  name: prisma.name,
-  apiKeys: prisma.apiKeys.map(mapToApiKeyResponseDto),
-});
+): OrganizationResponseDto => {
+  return OrganizationResponseDto.create({
+    id: prisma.id,
+    name: prisma.name,
+    apiKeys: prisma.apiKeys.map(mapToApiKeyResponseDto),
+  });
+};

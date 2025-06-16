@@ -1,4 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { OpenAI } from 'openai';
 import { UserService } from '../user/user.service';
 import { MessageService } from '../message/message.service';
@@ -62,6 +66,11 @@ export class OpenaiService {
       });
 
       const aiResponse = response.choices[0].message.content;
+      if (!aiResponse) {
+        throw new InternalServerErrorException(
+          'No response content from OpenAI',
+        );
+      }
 
       await this.messageService.createMessage(aiResponse, 'assistant', user.id);
 
