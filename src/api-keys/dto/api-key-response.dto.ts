@@ -1,6 +1,16 @@
 import { ApiKey } from 'generated/prisma/client';
 import { createZodDto } from 'nestjs-zod';
-import { ApiKeyResponseSchema } from '../schema';
+import z from 'zod';
+
+export const ApiKeyResponseSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  prefix: z.string(),
+  organizationId: z.string(),
+  lastUsedAt: z.string().datetime().optional(),
+  expiresAt: z.string().datetime().optional(),
+  isActive: z.boolean(),
+});
 
 export class ApiKeyResponseDto extends createZodDto(ApiKeyResponseSchema) {}
 

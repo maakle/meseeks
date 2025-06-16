@@ -3,8 +3,8 @@ import { UserService } from './user.service';
 import { UpsertUserDto } from './dto/upsert-user';
 import { RequireApiKey } from '../auth/api-key.decorator';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { UserResponseSchema } from './schema';
 import { zodToOpenAPI } from 'nestjs-zod';
+import { UserResponseSchema } from './dto/user-response.dto';
 
 @ApiTags('users')
 @Controller('users')

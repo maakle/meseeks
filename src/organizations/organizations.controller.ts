@@ -11,10 +11,12 @@ import {
 import { OrganizationsService } from './organizations.service';
 
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { OrganizationResponseDto } from './dto/organization-response.dto';
+import {
+  OrganizationResponseDto,
+  OrganizationResponseSchema,
+} from './dto/organization-response.dto';
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { zodToOpenAPI } from 'nestjs-zod';
-import { OrganizationResponseSchema } from './schema';
 import z from 'zod';
 
 @ApiTags('organizations')

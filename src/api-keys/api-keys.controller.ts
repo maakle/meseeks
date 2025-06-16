@@ -11,9 +11,11 @@ import {
 import { ApiKeysService } from './api-keys.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateApiKeyDto } from './dto/create-api-key.dto';
-import { ApiKeyResponseDto } from './dto/api-key-response.dto';
+import {
+  ApiKeyResponseDto,
+  ApiKeyResponseSchema,
+} from './dto/api-key-response.dto';
 import { zodToOpenAPI } from 'nestjs-zod';
-import { ApiKeyResponseSchema } from './schema';
 import z from 'zod';
 
 @ApiTags('api-keys')

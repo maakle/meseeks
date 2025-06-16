@@ -1,6 +1,11 @@
 import { User } from 'generated/prisma/client';
-import { UserResponseSchema } from '../schema';
 import { createZodDto } from 'nestjs-zod';
+import z from 'zod';
+
+export const UserResponseSchema = z.object({
+  id: z.string(),
+  phoneNumber: z.string(),
+});
 
 export class UserResponseDto extends createZodDto(UserResponseSchema) {}
 

@@ -24,11 +24,13 @@ export class OrganizationsService {
   }
 
   async findAll(): Promise<OrganizationResponseDto[]> {
-    return this.prisma.organization.findMany({
+    const organizations = await this.prisma.organization.findMany({
       include: {
         apiKeys: true,
       },
     });
+
+    return organizations.map(mapToOrganizationResponseDto);
   }
 
   async findOne(id: string): Promise<OrganizationResponseDto> {
