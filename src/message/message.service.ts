@@ -4,14 +4,14 @@ import {
   MessageResponseDto,
   mapToMessageResponseDto,
 } from './dto/message-response.dto';
-import { HandleServiceError } from '../common/decorators/error-handler.decorator';
+import { HandleServiceErrors } from '../common/decorators/error-handler.decorator';
 import { MessageCreationError, MessageFetchError } from './errors';
 
 @Injectable()
+@HandleServiceErrors(MessageService.name)
 export class MessageService {
   constructor(private readonly prisma: PrismaService) {}
 
-  @HandleServiceError(MessageService.name)
   async createMessage(
     content: string,
     role: 'user' | 'assistant',
@@ -32,7 +32,6 @@ export class MessageService {
     return mapToMessageResponseDto(message);
   }
 
-  @HandleServiceError(MessageService.name)
   async createAndManyFetchMessages(
     content: string,
     role: 'user' | 'assistant',

@@ -5,8 +5,10 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { writeFileSync } from 'fs';
 import * as path from 'path';
 import * as ffmpeg from 'fluent-ffmpeg';
+import { HandleServiceErrors } from '../common/decorators/error-handler.decorator';
 
 @Injectable()
+@HandleServiceErrors(AudioService.name)
 export class AudioService {
   private readonly openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -18,15 +20,11 @@ export class AudioService {
   async convertAudioToText(
     filePath: string,
   ): Promise<{ status: 'error' | 'success'; data: string }> {
-    try {
-      const response = await this.openai.audio.transcriptions.create({
-        model: 'Systran/faster-whisper-small',
-        file: createReadStream(filePath),
-      });
-      return { status: 'success', data: response.text };
-    } catch (e) {
-      return { status: 'error', data: 'Audio transcription failed' };
-    }
+    const response = await this.openai.audio.transcriptions.create({
+      model: 'Systran/faster-whisper-small',
+      file: createReadStream(filePath),
+    });
+    return { status: 'success', data: response.text };
   }
 
   async convertTextToSpeech(text: string) {
@@ -37,44 +35,40 @@ export class AudioService {
       },
       responseType: 'arraybuffer',
     };
-    try {
-      const folderName = process.env.AUDIO_FILES_FOLDER || 'audio-files';
-      const fileName = `${Date.now()}.ogg`;
 
-      const folderPath = path.join(process.cwd(), folderName);
-      const filePath = path.join(folderPath, fileName);
+    const folderName = process.env.AUDIO_FILES_FOLDER || 'audio-files';
+    const fileName = `${Date.now()}.ogg`;
 
-      //check if the audio folder exists, if not create
-      if (!existsSync(folderPath)) {
-        mkdirSync(folderPath);
-      }
+    const folderPath = path.join(process.cwd(), folderName);
+    const filePath = path.join(folderPath, fileName);
 
-      const response = await axios.post(url, text, config);
-
-      writeFileSync(filePath, response.data);
-
-      // Define the output file name and path (.mp3 file)
-      const mp3FileName = `${Date.now()}.mp3`;
-      const mp3FilePath = path.join(folderPath, mp3FileName);
-
-      // Convert the file to .mp3 format
-      await new Promise<void>((resolve, reject) => {
-        ffmpeg(filePath)
-          .audioCodec('libmp3lame') // Convert to MP3 codec
-          .on('end', () => {
-            console.log('Conversion to MP3 completed.');
-            resolve();
-          })
-          .on('error', (err) => {
-            console.error('Error during MP3 conversion:', err);
-            reject(err);
-          })
-          .save(mp3FilePath); // Save as .mp3 file
-      });
-      return { status: 'success', data: mp3FileName };
-    } catch (e) {
-      this.logger.error('Error fetching url', e);
-      return { status: 'error', data: 'Error converting text to speech' };
+    //check if the audio folder exists, if not create
+    if (!existsSync(folderPath)) {
+      mkdirSync(folderPath);
     }
+
+    const response = await axios.post(url, text, config);
+    writeFileSync(filePath, response.data);
+
+    // Define the output file name and path (.mp3 file)
+    const mp3FileName = `${Date.now()}.mp3`;
+    const mp3FilePath = path.join(folderPath, mp3FileName);
+
+    // Convert the file to .mp3 format
+    await new Promise<void>((resolve, reject) => {
+      ffmpeg(filePath)
+        .audioCodec('libmp3lame') // Convert to MP3 codec
+        .on('end', () => {
+          console.log('Conversion to MP3 completed.');
+          resolve();
+        })
+        .on('error', (err) => {
+          console.error('Error during MP3 conversion:', err);
+          reject(err);
+        })
+        .save(mp3FilePath); // Save as .mp3 file
+    });
+
+    return { status: 'success', data: mp3FileName };
   }
 }

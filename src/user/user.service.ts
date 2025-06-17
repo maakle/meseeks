@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpsertUserDto } from './dto/upsert-user';
-import { HandleServiceError } from '../common/decorators/error-handler.decorator';
+import { HandleServiceErrors } from '../common/decorators/error-handler.decorator';
 import { UserNotFoundError } from './errors';
 import { mapToUserResponseDto, UserResponseDto } from './dto/user-response.dto';
 
 @Injectable()
+@HandleServiceErrors(UserService.name)
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
 
-  @HandleServiceError(UserService.name)
   async findUserById(id: string): Promise<UserResponseDto> {
     const user = await this.prisma.user.findUnique({
       where: { id },
@@ -22,7 +22,6 @@ export class UserService {
     return mapToUserResponseDto(user);
   }
 
-  @HandleServiceError(UserService.name)
   async findUserByPhoneNumber(phoneNumber: string): Promise<UserResponseDto> {
     const user = await this.prisma.user.findUnique({
       where: { phoneNumber },
@@ -35,7 +34,6 @@ export class UserService {
     return mapToUserResponseDto(user);
   }
 
-  @HandleServiceError(UserService.name)
   async upsertUser(dto: UpsertUserDto): Promise<UserResponseDto> {
     const user = await this.prisma.user.upsert({
       where: { phoneNumber: dto.phoneNumber },

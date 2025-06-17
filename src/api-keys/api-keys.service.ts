@@ -6,8 +6,10 @@ import {
   ApiKeyResponseDto,
   mapToApiKeyResponseDto,
 } from './dto/api-key-response.dto';
+import { HandleServiceErrors } from '../common/decorators/error-handler.decorator';
 
 @Injectable()
+@HandleServiceErrors(ApiKeysService.name)
 export class ApiKeysService {
   constructor(private prisma: PrismaService) {}
 

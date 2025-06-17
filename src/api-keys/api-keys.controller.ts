@@ -7,6 +7,7 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiKeysService } from './api-keys.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -17,8 +18,10 @@ import {
 } from './dto/api-key-response.dto';
 import { zodToOpenAPI } from 'nestjs-zod';
 import z from 'zod';
+import { CombinedAuthGuard } from '../auth/combined-auth.guard';
 
 @ApiTags('api-keys')
+@UseGuards(CombinedAuthGuard)
 @Controller('organizations/:organizationId/api-keys')
 export class ApiKeysController {
   constructor(private readonly apiKeysService: ApiKeysService) {}

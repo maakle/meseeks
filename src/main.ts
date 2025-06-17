@@ -4,11 +4,10 @@ import { join } from 'path';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { VersioningType } from '@nestjs/common';
+import { apiReference } from '@scalar/nestjs-api-reference';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-
-  // Enable API versioning
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: '1',
@@ -21,7 +20,13 @@ async function bootstrap() {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+
+  app.use(
+    '/reference',
+    apiReference({
+      content: document,
+    }),
+  );
 
   app.useStaticAssets(join(__dirname, '..', 'generatedImages'));
   app.useStaticAssets(join(__dirname, '..', 'audioFile'));

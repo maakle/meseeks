@@ -7,6 +7,7 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { OrganizationsService } from './organizations.service';
 
@@ -18,6 +19,7 @@ import {
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { zodToOpenAPI } from 'nestjs-zod';
 import z from 'zod';
+import { CombinedAuthGuard } from '@/auth/combined-auth.guard';
 
 @ApiTags('organizations')
 @Controller('organizations')
@@ -25,6 +27,7 @@ export class OrganizationsController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
   @Post()
+  @UseGuards(CombinedAuthGuard)
   @ApiOperation({ summary: 'Create a new organization' })
   @ApiResponse({
     status: 201,
