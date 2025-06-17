@@ -18,9 +18,9 @@ import {
 } from './dto/api-key-response.dto';
 import { zodToOpenAPI } from 'nestjs-zod';
 import z from 'zod';
-import { CombinedAuthGuard } from '../auth/combined-auth.guard';
+import { CombinedAuthGuard } from '../auth/guards/combined-auth.guard';
 
-@ApiTags('api-keys')
+@ApiTags('API Keys')
 @UseGuards(CombinedAuthGuard)
 @Controller('organizations/:organizationId/api-keys')
 export class ApiKeysController {

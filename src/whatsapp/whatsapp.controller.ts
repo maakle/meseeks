@@ -10,7 +10,7 @@ import { OpenaiService } from '../openai/openai.service';
 import { UserService } from '../user/user.service';
 import { convertToIntlPhonenumber } from './util';
 
-@ApiTags('whatsapp')
+@ApiTags('WhatsApp')
 @Controller('whatsapp')
 export class WhatsappController {
   constructor(
@@ -59,7 +59,7 @@ export class WhatsappController {
 
   @Post('webhook')
   @HttpCode(200)
-  @ApiOperation({ summary: 'Handle incoming WhatsApp messages' })
+  @ApiOperation({ summary: 'Handle incoming messages' })
   @ApiResponse({ status: 200, description: 'Message processed successfully' })
   @ApiResponse({ status: 400, description: 'Invalid message format' })
   async handleIncomingWhatsappMessage(@Body() request: any) {

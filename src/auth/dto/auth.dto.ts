@@ -1,7 +1,6 @@
 import z from 'zod';
 import { createZodDto } from 'nestjs-zod';
 
-// Base schema for email and password
 const emailPasswordSchema = z.object({
   email: z.string().email('Invalid email format'),
   password: z
@@ -17,13 +16,9 @@ export const LoginResponseSchema = z.object({
   access_token: z.string(),
 });
 
-// Login schema
 export const LoginSchema = emailPasswordSchema;
-
-// Signup schema extends the base schema
 export const SignupSchema = emailPasswordSchema;
 
-// Create DTOs
 export class SignupDto extends createZodDto(SignupSchema) {}
 export class LoginDto extends createZodDto(LoginSchema) {}
 export class LoginResponseDto extends createZodDto(LoginResponseSchema) {}

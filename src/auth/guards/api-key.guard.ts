@@ -4,7 +4,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { Request } from 'express';
 
 @Injectable()
@@ -33,7 +33,6 @@ export class ApiKeyGuard implements CanActivate {
   }
 
   private async validateApiKey(apiKey: string): Promise<boolean> {
-    // Find the API key in the database
     const apiKeyRecord = await this.prisma.apiKey.findFirst({
       where: {
         hashedKey: apiKey,
@@ -46,7 +45,6 @@ export class ApiKeyGuard implements CanActivate {
       return false;
     }
 
-    // Update last used timestamp
     await this.prisma.apiKey.update({
       where: { id: apiKeyRecord.id },
       data: { lastUsedAt: new Date() },

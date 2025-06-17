@@ -1,19 +1,17 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
-import { RequireApiKey } from '../auth/api-key.decorator';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { zodToOpenAPI } from 'nestjs-zod';
 import { UserResponseSchema } from './dto/user-response.dto';
-import { CombinedAuthGuard } from '@/auth/combined-auth.guard';
+import { CombinedAuthGuard } from '@/auth/guards/combined-auth.guard';
 
-@ApiTags('users')
+@ApiTags('Users')
 @UseGuards(CombinedAuthGuard)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get(':id')
-  @RequireApiKey()
   @ApiOperation({ summary: 'Get a user by ID' })
   @ApiResponse({
     status: 200,

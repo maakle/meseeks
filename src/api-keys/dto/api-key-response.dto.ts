@@ -20,8 +20,8 @@ export const mapToApiKeyResponseDto = (prisma: ApiKey): ApiKeyResponseDto => {
     name: prisma.name,
     prefix: prisma.prefix,
     organizationId: prisma.organizationId,
-    lastUsedAt: prisma.lastUsedAt,
-    expiresAt: prisma.expiresAt,
+    lastUsedAt: prisma.lastUsedAt?.toISOString() ?? null,
+    expiresAt: prisma.expiresAt?.toISOString() ?? null,
     isActive: prisma.isActive,
   });
 };

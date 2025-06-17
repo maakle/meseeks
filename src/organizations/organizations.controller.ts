@@ -19,9 +19,9 @@ import {
 import { CreateOrganizationDto } from './dto/create-organization.dto';
 import { zodToOpenAPI } from 'nestjs-zod';
 import z from 'zod';
-import { CombinedAuthGuard } from '@/auth/combined-auth.guard';
+import { CombinedAuthGuard } from '@/auth/guards/combined-auth.guard';
 
-@ApiTags('organizations')
+@ApiTags('Organization')
 @Controller('organizations')
 export class OrganizationsController {
   constructor(private readonly organizationsService: OrganizationsService) {}
@@ -40,6 +40,7 @@ export class OrganizationsController {
   }
 
   @Get()
+  @UseGuards(CombinedAuthGuard)
   @ApiOperation({ summary: 'Get all organizations' })
   @ApiResponse({
     status: 200,
