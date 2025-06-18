@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  phoneNumber String?   @unique
+  email       String?   @unique
+  password    String?
+  messages    Message[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  content   String
+  role      String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Organization {
+  id          String   @id @default(cuid())
+  name        String
+  apiKeys     ApiKey[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ApiKey {
+  id            String      @id @default(cuid())
+  name          String      
+  prefix        String      
+  hashedKey     String      
+  organization  Organization @relation(fields: [organizationId], references: [id])
+  organizationId String
+  lastUsedAt    DateTime?   
+  expiresAt     DateTime?   
+  isActive      Boolean     @default(true)
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([prefix])
+  @@index([organizationId])
+}
