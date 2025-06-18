@@ -9,6 +9,21 @@ const baseConfig: NextConfig = {
         protocol: 'https',
         hostname: 'api.slingacademy.com',
         port: ''
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+        port: ''
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: ''
+      },
+      {
+        protocol: 'https',
+        hostname: 'avatars.githubusercontent.com',
+        port: ''
       }
     ]
   },

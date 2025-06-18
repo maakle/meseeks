@@ -1,105 +1,140 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { cn } from "@/lib/utils";
-import { CircleCheck } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Check } from "lucide-react";
 
-const plans = [
+enum PopularPlan {
+  NO = 0,
+  YES = 1,
+}
+
+interface PlanProps {
+  title: string;
+  popular: PopularPlan;
+  price: number;
+  description: string;
+  buttonText: string;
+  benefitList: string[];
+}
+
+const plans: PlanProps[] = [
   {
-    name: "Starter",
-    price: 19,
+    title: "Free",
+    popular: 0,
+    price: 0,
     description:
-      "Get 20 AI-generated portraits with 2 unique styles and filters.",
-    features: [
-      "5 hours turnaround time",
-      "20 AI portraits",
-      "Choice of 2 styles",
-      "Choice of 2 filters",
-      "2 retouch credits",
+      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
+    buttonText: "Start Free Trial",
+    benefitList: [
+      "1 team member",
+      "1 GB storage",
+      "Upto 2 pages",
+      "Community support",
+      "AI assistance",
     ],
-    buttonText: "Get 20 portraits in 5 hours",
   },
   {
-    name: "Advanced",
-    price: 29,
-    isRecommended: true,
+    title: "Premium",
+    popular: 1,
+    price: 45,
     description:
-      "Get 50 AI-generated portraits with 5 unique styles and filters.",
-    features: [
-      "3 hours turnaround time",
-      "50 AI portraits",
-      "Choice of 5 styles",
-      "Choice of 5 filters",
-      "5 retouch credits",
+      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
+    buttonText: "Get starterd",
+    benefitList: [
+      "4 team member",
+      "8 GB storage",
+      "Upto 6 pages",
+      "Priority support",
+      "AI assistance",
     ],
-    buttonText: "Get 50 portraits in 3 hours",
-    isPopular: true,
   },
   {
-    name: "Premium",
-    price: 49,
+    title: "Enterprise",
+    popular: 0,
+    price: 120,
     description:
-      "Get 100 AI-generated portraits with 10 unique styles and filters.",
-    features: [
-      "1-hour turnaround time",
-      "100 AI portraits",
-      "Choice of 10 styles",
-      "Choice of 10 filters",
-      "10 retouch credits",
+      "Lorem ipsum dolor sit, amet ipsum consectetur adipisicing elit.",
+    buttonText: "Contact US",
+    benefitList: [
+      "10 team member",
+      "20 GB storage",
+      "Upto 10 pages",
+      "Phone & email support",
+      "AI assistance",
     ],
-    buttonText: "Get 100 portraits in 1 hour",
   },
 ];
 
-const Pricing = () => {
+export const PricingSection = () => {
   return (
-    <div id="pricing" className="max-w-screen-lg mx-auto py-12 xs:py-20 px-6">
-      <h1 className="text-4xl xs:text-5xl font-bold text-center tracking-tight">
+    <section className="container py-24 sm:py-32">
+      <h2 className="text-lg text-primary text-center mb-2 tracking-wider">
         Pricing
-      </h1>
-      <div className="mt-8 xs:mt-14 grid grid-cols-1 lg:grid-cols-3 items-center gap-8 lg:gap-0">
-        {plans.map((plan) => (
-          <div
-            key={plan.name}
-            className={cn(
-              "relative bg-accent/50 border p-7 rounded-xl lg:rounded-none lg:first:rounded-l-xl lg:last:rounded-r-xl",
-              {
-                "bg-background border-[2px] border-primary py-12 !rounded-xl":
-                  plan.isPopular,
+      </h2>
+
+      <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
+        Get unlimitted access
+      </h2>
+
+      <h3 className="md:w-1/2 mx-auto text-xl text-center text-muted-foreground pb-14">
+        Lorem ipsum dolor sit amet consectetur adipisicing reiciendis.
+      </h3>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-4">
+        {plans.map(
+          ({ title, popular, price, description, buttonText, benefitList }) => (
+            <Card
+              key={title}
+              className={
+                popular === PopularPlan?.YES
+                  ? "drop-shadow-xl shadow-black/10 dark:shadow-white/10 border-[1.5px] border-primary lg:scale-[1.1]"
+                  : ""
               }
-            )}
-          >
-            {plan.isPopular && (
-              <Badge className="absolute top-0 right-1/2 translate-x-1/2 -translate-y-1/2">
-                Most Popular
-              </Badge>
-            )}
-            <h3 className="text-lg font-medium">{plan.name}</h3>
-            <p className="mt-2 text-4xl font-bold">${plan.price}</p>
-            <p className="mt-4 font-medium text-muted-foreground">
-              {plan.description}
-            </p>
-            <Separator className="my-6" />
-            <ul className="space-y-2">
-              {plan.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-2">
-                  <CircleCheck className="h-4 w-4 mt-1 text-green-600" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-            <Button
-              variant={plan.isPopular ? "default" : "outline"}
-              size="lg"
-              className="w-full mt-6 rounded-full"
             >
-              {plan.buttonText}
-            </Button>
-          </div>
-        ))}
+              <CardHeader>
+                <CardTitle className="pb-2">{title}</CardTitle>
+
+                <CardDescription className="pb-4">
+                  {description}
+                </CardDescription>
+
+                <div>
+                  <span className="text-3xl font-bold">${price}</span>
+                  <span className="text-muted-foreground"> /month</span>
+                </div>
+              </CardHeader>
+
+              <CardContent className="flex">
+                <div className="space-y-4">
+                  {benefitList.map((benefit) => (
+                    <span key={benefit} className="flex">
+                      <Check className="text-primary mr-2" />
+                      <h3>{benefit}</h3>
+                    </span>
+                  ))}
+                </div>
+              </CardContent>
+
+              <CardFooter>
+                <Button
+                  variant={
+                    popular === PopularPlan?.YES ? "default" : "secondary"
+                  }
+                  className="w-full"
+                >
+                  {buttonText}
+                </Button>
+              </CardFooter>
+            </Card>
+          )
+        )}
       </div>
-    </div>
+    </section>
   );
 };
-
-export default Pricing;

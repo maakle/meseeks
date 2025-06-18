@@ -16,8 +16,9 @@ const META_THEME_COLORS = {
 };
 
 export const metadata: Metadata = {
-  title: "Next Shadcn",
-  description: "Basic dashboard with Next.js and Shadcn",
+  title: "Meseeks",
+  description:
+    "Meseeks is a background task manager that uses LLMs to manage your tasks. It's open-source and free for self-hosting. Sign Up today!",
 };
 
 export const viewport: Viewport = {
@@ -50,7 +51,7 @@ export default async function RootLayout({
       </head>
       <body
         className={cn(
-          "bg-background overflow-hidden overscroll-none font-sans antialiased",
+          "bg-background font-sans antialiased",
           activeThemeValue ? `theme-${activeThemeValue}` : "",
           isScaled ? "theme-scaled" : "",
           fontVariables

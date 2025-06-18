@@ -1,84 +1,93 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import {
-  BookCheck,
-  ChartPie,
-  FolderSync,
-  Goal,
-  Users,
-  Zap,
-} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Icon } from "@/components/ui/icon";
+import { icons } from "lucide-react";
 
-const features = [
+interface FeaturesProps {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+const featureList: FeaturesProps[] = [
   {
-    icon: Goal,
-    title: "Identify Opportunities",
+    icon: "TabletSmartphone",
+    title: "Mobile Friendly",
     description:
-      "Easily uncover untapped areas to explore and expand your reach effortlessly.",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A odio velit cum aliquam, consectetur.",
   },
   {
-    icon: BookCheck,
-    title: "Build Authority",
+    icon: "BadgeCheck",
+    title: "Social Proof",
     description:
-      "Create valuable content that resonates, inspires trust, and positions you as an expert.",
+      "Lorem ipsum dolor sit amet consectetur. Natus consectetur, odio ea accusamus aperiam.",
   },
   {
-    icon: ChartPie,
-    title: "Instant Insights",
+    icon: "Goal",
+    title: "Targeted Content",
     description:
-      "Gain immediate, actionable insights with a quick glance, enabling fast decision-making.",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. odio ea accusamus aperiam.",
   },
   {
-    icon: Users,
-    title: "Engage with Your Audience",
+    icon: "PictureInPicture",
+    title: "Strong Visuals",
     description:
-      "Boost audience engagement with interactive features like polls, quizzes, and forms.",
+      "Lorem elit. A odio velit cum aliquam. Natus consectetur dolores, odio ea accusamus aperiam.",
   },
   {
-    icon: FolderSync,
-    title: "Automate Your Workflow",
+    icon: "MousePointerClick",
+    title: "Clear CTA",
     description:
-      "Streamline your processes by automating repetitive tasks, saving time and reducing effort.",
+      "Lorem ipsum dolor sit amet consectetur adipisicing. odio ea accusamus consectetur.",
   },
   {
-    icon: Zap,
-    title: "Accelerate Growth",
+    icon: "Newspaper",
+    title: "Clear Headline",
     description:
-      "Supercharge your growth by implementing strategies that drive results quickly and efficiently.",
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. A odio velit cum aliquam. Natus consectetur.",
   },
 ];
 
-const Features = () => {
+export const FeaturesSection = () => {
   return (
-    <div
-      id="features"
-      className="max-w-screen-xl mx-auto w-full py-12 xs:py-20 px-6"
-    >
-      <h2 className="text-3xl xs:text-4xl md:text-5xl md:leading-[3.5rem] font-bold tracking-tight sm:max-w-xl sm:text-center sm:mx-auto">
-        Boost Your Strategy with Smart Features
+    <section id="features" className="container py-24 sm:py-32">
+      <h2 className="text-lg text-primary text-center mb-2 tracking-wider">
+        Features
       </h2>
-      <div className="mt-8 xs:mt-14 w-full mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-12">
-        {features.map((feature) => (
-          <Card
-            key={feature.title}
-            className="flex flex-col border rounded-xl overflow-hidden shadow-none"
-          >
-            <CardHeader>
-              <feature.icon />
-              <h4 className="!mt-3 text-xl font-bold tracking-tight">
-                {feature.title}
-              </h4>
-              <p className="mt-1 text-muted-foreground text-sm xs:text-[17px]">
-                {feature.description}
-              </p>
-            </CardHeader>
-            <CardContent className="mt-auto px-0 pb-0">
-              <div className="bg-muted h-52 ml-6 rounded-tl-xl" />
-            </CardContent>
-          </Card>
+
+      <h2 className="text-3xl md:text-4xl text-center font-bold mb-4">
+        What Makes Us Different
+      </h2>
+
+      <h3 className="md:w-1/2 mx-auto text-xl text-center text-muted-foreground mb-8">
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptatem
+        fugiat, odit similique quasi sint reiciendis quidem iure veritatis optio
+        facere tenetur.
+      </h3>
+
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {featureList.map(({ icon, title, description }) => (
+          <div key={title}>
+            <Card className="h-full bg-background border-0 shadow-none">
+              <CardHeader className="flex justify-center items-center">
+                <div className="bg-primary/20 p-2 rounded-full ring-8 ring-primary/10 mb-4">
+                  <Icon
+                    name={icon as keyof typeof icons}
+                    size={24}
+                    color="hsl(var(--primary))"
+                    className="text-primary"
+                  />
+                </div>
+
+                <CardTitle>{title}</CardTitle>
+              </CardHeader>
+
+              <CardContent className="text-muted-foreground text-center">
+                {description}
+              </CardContent>
+            </Card>
+          </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };
-
-export default Features;
