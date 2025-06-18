@@ -25,6 +25,7 @@ import { ToggleTheme } from "./toogle-theme";
 import { useTheme } from "next-themes";
 import { LogoDark } from "./ui/logo-dark";
 import { LogoLight } from "./ui/logo-light";
+import { ModeToggle } from "./layout/ThemeToggle/theme-toggle";
 
 interface RouteProps {
   href: string;
@@ -178,7 +179,7 @@ export const Navbar = () => {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <div className="hidden lg:flex items-center gap-2">
+      <div className="hidden lg:flex items-center gap-1">
         <ToggleTheme />
 
         <Button asChild size="sm" variant="ghost" aria-label="View on GitHub">
@@ -187,7 +188,13 @@ export const Navbar = () => {
             href="https://github.com/nobruf/shadcn-landing-page.git"
             target="_blank"
           >
-            <Github className="size-5" />
+            <Github className="size-4" />
+          </Link>
+        </Button>
+
+        <Button asChild size="sm" variant="outline" aria-label="Sign in">
+          <Link aria-label="Sign in" href="/auth/sign-in" target="_blank">
+            Sign in
           </Link>
         </Button>
       </div>

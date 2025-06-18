@@ -33,9 +33,9 @@ export const ToggleTheme = () => {
     >
       <div className="flex items-center gap-2">
         {theme === "light" ? (
-          <Moon className="size-5" />
+          <Moon className="size-4" />
         ) : (
-          <Sun className="size-5" />
+          <Sun className="size-4" />
         )}
         <span className="block lg:hidden">
           {theme === "light" ? "Light" : "Dark"}
