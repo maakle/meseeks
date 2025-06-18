@@ -9,7 +9,8 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "clean": "turbo run clean && rm -rf node_modules",
-    "postinstall": "turbo run postinstall --filter=backend"
+    "postinstall": "turbo run postinstall --filter=backend",
+    "start": "turbo run start --filter=frontend"
   },
   "devDependencies": {
     "prettier": "^3.2.5",
