@@ -79,7 +79,7 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <header className="shadow-inner bg-opacity-15 w-[90%] md:w-[70%] lg:w-[75%] lg:max-w-screen-xl top-5 mx-auto sticky border border-secondary z-40 rounded-2xl flex justify-between items-center p-2 bg-card">
+    <header className="bg-opacity-15 w-[90%] md:w-[70%] lg:w-[75%] lg:max-w-screen-xl top-5 mx-auto sticky border border-secondary z-40 rounded-2xl flex justify-between items-center p-2 bg-card">
       <Link href="/" className="font-bold text-lg flex items-center">
         {mounted && theme === "dark" ? <LogoDark /> : <LogoLight />}
         Meseeks
@@ -179,19 +179,20 @@ export const Navbar = () => {
         </NavigationMenuList>
       </NavigationMenu>
 
-      <div className="hidden lg:flex items-center gap-1">
-        <ToggleTheme />
+      <div className="flex items-center space-x-4">
+        <div className="hidden lg:flex items-center space-x-4">
+          <ToggleTheme />
 
-        <Button asChild size="sm" variant="ghost" aria-label="View on GitHub">
-          <Link
-            aria-label="View on GitHub"
-            href="https://github.com/nobruf/shadcn-landing-page.git"
-            target="_blank"
-          >
-            <Github className="size-4" />
-          </Link>
-        </Button>
-
+          <Button asChild size="sm" variant="ghost" aria-label="View on GitHub">
+            <Link
+              aria-label="View on GitHub"
+              href="https://github.com/nobruf/shadcn-landing-page.git"
+              target="_blank"
+            >
+              <Github className="size-4" />
+            </Link>
+          </Button>
+        </div>
         <Button asChild size="sm" variant="outline" aria-label="Sign in">
           <Link aria-label="Sign in" href="/auth/sign-in" target="_blank">
             Sign in

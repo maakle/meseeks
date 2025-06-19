@@ -10,7 +10,7 @@ import {
 
 export const CommunitySection = () => {
   return (
-    <section id="community" className="py-12 ">
+    <section id="community" className="md:max-w-[75%] mx-auto pb-24 sm:pb-32">
       <hr className="border-secondary" />
       <div className="container py-20 sm:py-20">
         <div className="lg:w-[60%] mx-auto">
