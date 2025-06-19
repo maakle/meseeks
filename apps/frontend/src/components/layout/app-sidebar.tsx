@@ -31,9 +31,8 @@ import {
 import { UserAvatarProfile } from "@/components/user-avatar-profile";
 import { navItems } from "@/constants/data";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { useUser } from "@clerk/nextjs";
+import { SignOutButton, useUser } from "@clerk/nextjs";
 import {
-  IconBell,
   IconChevronRight,
   IconChevronsDown,
   IconCreditCard,
@@ -41,7 +40,7 @@ import {
   IconPhotoUp,
   IconUserCircle,
 } from "@tabler/icons-react";
-import { SignOutButton } from "@clerk/nextjs";
+import { CogIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import * as React from "react";
@@ -189,13 +188,18 @@ export default function AppSidebar() {
                     <IconUserCircle className="mr-2 h-4 w-4" />
                     Profile
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => router.push("/dashboard/billing")}
+                  >
                     <IconCreditCard className="mr-2 h-4 w-4" />
                     Billing
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <IconBell className="mr-2 h-4 w-4" />
-                    Notifications
+
+                  <DropdownMenuItem
+                    onClick={() => router.push("/dashboard/settings")}
+                  >
+                    <CogIcon className="mr-2 h-4 w-4" />
+                    Settings
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

@@ -1,10 +1,7 @@
 import { Breadcrumbs } from "../breadcrumbs";
 import SearchInput from "../search-input";
-import { ThemeSelector } from "../theme-selector";
 import { Separator } from "../ui/separator";
 import { SidebarTrigger } from "../ui/sidebar";
-import { ModeToggle } from "./ThemeToggle/theme-toggle";
-import { UserNav } from "./user-nav";
 
 export default function Header() {
   return (
@@ -15,13 +12,10 @@ export default function Header() {
         <Breadcrumbs />
       </div>
 
-      <div className="flex items-center gap-2 px-4">
-        <div className="hidden md:flex">
+      <div className="flex flex-1 items-center justify-center px-4">
+        <div className="hidden md:flex w-full max-w-md">
           <SearchInput />
         </div>
-        <UserNav />
-        <ModeToggle />
-        <ThemeSelector />
       </div>
     </header>
   );
