@@ -32,6 +32,7 @@ import { useState } from "react";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 
 interface ProfileFormType {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialData: any | null;
 }
 
@@ -298,7 +299,6 @@ const ProfileCreateForm: React.FC<ProfileFormType> = ({ initialData }) => {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {/* @ts-ignore  */}
                           {countries.map((country) => (
                             <SelectItem key={country.id} value={country.id}>
                               {country.name}
@@ -331,7 +331,6 @@ const ProfileCreateForm: React.FC<ProfileFormType> = ({ initialData }) => {
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          {/* @ts-ignore  */}
                           {cities.map((city) => (
                             <SelectItem key={city.id} value={city.id}>
                               {city.name}

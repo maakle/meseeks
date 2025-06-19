@@ -25,7 +25,6 @@ import { ToggleTheme } from "./toogle-theme";
 import { useTheme } from "next-themes";
 import { LogoDark } from "./ui/logo-dark";
 import { LogoLight } from "./ui/logo-light";
-import { ModeToggle } from "./layout/ThemeToggle/theme-toggle";
 
 interface RouteProps {
   href: string;

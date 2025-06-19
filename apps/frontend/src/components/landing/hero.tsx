@@ -2,12 +2,9 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { useTheme } from "next-themes";
-import Image from "next/image";
 import Link from "next/link";
 
 export const HeroSection = () => {
-  const { theme } = useTheme();
   return (
     <section className="container mx-auto w-full">
       <div className="flex flex-col items-center justify-center max-w-screen-xl mx-auto py-20 md:py-32">
