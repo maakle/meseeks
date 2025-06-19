@@ -1,25 +1,23 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
+  Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
-  UseGuards,
+  Param,
+  Post,
 } from '@nestjs/common';
 import { OrganizationsService } from './organizations.service';
 
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { zodToOpenAPI } from 'nestjs-zod';
+import z from 'zod';
+import { CreateOrganizationDto } from './dto/create-organization.dto';
 import {
   OrganizationResponseDto,
   OrganizationResponseSchema,
 } from './dto/organization-response.dto';
-import { CreateOrganizationDto } from './dto/create-organization.dto';
-import { zodToOpenAPI } from 'nestjs-zod';
-import z from 'zod';
-import { CombinedAuthGuard } from '@/auth/guards/combined-auth.guard';
 
 @ApiTags('Organization')
 @Controller('organizations')
@@ -27,7 +25,6 @@ export class OrganizationsController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
   @Post()
-  @UseGuards(CombinedAuthGuard)
   @ApiOperation({ summary: 'Create a new organization' })
   @ApiResponse({
     status: 201,
@@ -40,7 +37,6 @@ export class OrganizationsController {
   }
 
   @Get()
-  @UseGuards(CombinedAuthGuard)
   @ApiOperation({ summary: 'Get all organizations' })
   @ApiResponse({
     status: 200,

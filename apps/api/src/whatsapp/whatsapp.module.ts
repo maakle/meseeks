@@ -1,11 +1,11 @@
+import { AudioService } from '@/audio/audio.service';
+import { MessageModule } from '@/message/message.module';
+import { UserService } from '@/user/user.service';
 import { Module } from '@nestjs/common';
-import { WhatsappController } from './whatsapp.controller';
-import { WhatsappService } from './whatsapp.service';
 import { OpenaiService } from '../openai/openai.service';
 import { StabilityaiService } from '../stabilityai/stabilityai.service';
-import { AudioService } from '@/audio/audio.service';
-import { UserService } from '@/user/user.service';
-import { MessageModule } from '@/message/message.module';
+import { WhatsappController } from './whatsapp.controller';
+import { WhatsappService } from './whatsapp.service';
 
 @Module({
   imports: [MessageModule],

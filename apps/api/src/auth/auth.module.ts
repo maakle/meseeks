@@ -1,31 +1,22 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { PrismaModule } from '../prisma/prisma.module';
-import { ApiKeyGuard } from './guards/api-key.guard';
-import { JwtStrategy } from './jwt.strategy';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { CombinedAuthGuard } from './guards/combined-auth.guard';
 import { ZodValidationPipe } from 'nestjs-zod';
+import { ClerkClientProvider } from '../common/providers/clerk-client.provider';
+import { PrismaModule } from '../prisma/prisma.module';
+import { AuthService } from './auth.service';
+import { ClerkStrategy } from './clerk.strategy';
+import { ApiKeyGuard } from './guards/api-key.guard';
 
 @Module({
-  imports: [
-    PrismaModule,
-    PassportModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET || 'your-secret-key', // Use environment variable in production
-      signOptions: { expiresIn: '1d' },
-    }),
-  ],
+  imports: [PrismaModule, PassportModule],
   providers: [
     AuthService,
     ApiKeyGuard,
-    JwtStrategy,
-    CombinedAuthGuard,
+    ClerkStrategy,
     ZodValidationPipe,
+    ClerkClientProvider,
   ],
-  controllers: [AuthController],
-  exports: [AuthService, ApiKeyGuard, CombinedAuthGuard, JwtModule],
+  controllers: [],
+  exports: [AuthService, ApiKeyGuard, PassportModule],
 })
 export class AuthModule {}

@@ -1,14 +1,15 @@
 import { Body, Controller, Get, HttpCode, Post, Req } from '@nestjs/common';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Request } from 'express';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 
 import * as process from 'node:process';
-import { WhatsappService } from './whatsapp.service';
 import { AudioService } from '../audio/audio.service';
-import { StabilityaiService } from '../stabilityai/stabilityai.service';
+import { Public } from '../common/decorators/public.decorator';
 import { OpenaiService } from '../openai/openai.service';
+import { StabilityaiService } from '../stabilityai/stabilityai.service';
 import { UserService } from '../user/user.service';
 import { convertToIntlPhonenumber } from './util';
+import { WhatsappService } from './whatsapp.service';
 
 @ApiTags('WhatsApp')
 @Controller('whatsapp')
@@ -22,6 +23,7 @@ export class WhatsappController {
   ) {}
 
   @Get('webhook')
+  @Public()
   @ApiOperation({ summary: 'Verify WhatsApp webhook' })
   @ApiQuery({
     name: 'hub.mode',
@@ -58,6 +60,7 @@ export class WhatsappController {
   }
 
   @Post('webhook')
+  @Public()
   @HttpCode(200)
   @ApiOperation({ summary: 'Handle incoming messages' })
   @ApiResponse({ status: 200, description: 'Message processed successfully' })

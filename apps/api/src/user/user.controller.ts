@@ -1,12 +1,10 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
-import { UserService } from './user.service';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Controller, Get, Param } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { zodToOpenAPI } from 'nestjs-zod';
 import { UserResponseSchema } from './dto/user-response.dto';
-import { CombinedAuthGuard } from '@/auth/guards/combined-auth.guard';
+import { UserService } from './user.service';
 
 @ApiTags('Users')
-@UseGuards(CombinedAuthGuard)
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}

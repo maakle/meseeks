@@ -23,11 +23,11 @@
     "predeploy": "npx prisma migrate deploy"
   },
   "dependencies": {
+    "@clerk/backend": "^2.1.0",
     "@nestjs/axios": "^3.0.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.0",
-    "@nestjs/jwt": "^11.0.0",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^11.2.0",
@@ -40,6 +40,7 @@
     "nestjs-zod": "^4.3.1",
     "openai": "^4.47.1",
     "passport": "^0.7.0",
+    "passport-custom": "^1.1.1",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",

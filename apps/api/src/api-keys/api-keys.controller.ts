@@ -1,27 +1,24 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Param,
+  Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
-  UseGuards,
+  Param,
+  Post,
 } from '@nestjs/common';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { zodToOpenAPI } from 'nestjs-zod';
+import z from 'zod';
 import { ApiKeysService } from './api-keys.service';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateApiKeyDto } from './dto/create-api-key.dto';
 import {
   ApiKeyResponseDto,
   ApiKeyResponseSchema,
 } from './dto/api-key-response.dto';
-import { zodToOpenAPI } from 'nestjs-zod';
-import z from 'zod';
-import { CombinedAuthGuard } from '../auth/guards/combined-auth.guard';
+import { CreateApiKeyDto } from './dto/create-api-key.dto';
 
 @ApiTags('API Keys')
-@UseGuards(CombinedAuthGuard)
 @Controller('organizations/:organizationId/api-keys')
 export class ApiKeysController {
   constructor(private readonly apiKeysService: ApiKeysService) {}

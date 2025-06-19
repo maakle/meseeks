@@ -39,7 +39,6 @@ This is a monorepo built with Turborepo, containing the following main applicati
 
    - For the API please look there is a example file `apps/api/.env.example` copy it to `apps/api/.env` and fill the variables
      ```env
-      JWT_SECRET=*** # Genreate with: openssl rand -base64 32
       DATABASE_URL=***
       SERVER_URL=***
       # ... dnd more

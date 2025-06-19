@@ -4,42 +4,68 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AuthService } from '../auth.service';
-import { JwtService } from '@nestjs/jwt';
+import { Reflector } from '@nestjs/core';
 import { Request } from 'express';
+import { firstValueFrom, Observable } from 'rxjs';
+import { IS_PUBLIC_KEY } from 'src/common/decorators/public.decorator';
+import { ApiKeyGuard } from './api-key.guard';
+import { ClerkAuthGuard } from './clerk-auth.guard';
 
 @Injectable()
 export class CombinedAuthGuard implements CanActivate {
+  private clerkGuard: ClerkAuthGuard;
+
   constructor(
-    private readonly authService: AuthService,
-    private readonly jwtService: JwtService,
-  ) {}
+    private reflector: Reflector,
+    private readonly apiKeyGuard: ApiKeyGuard,
+  ) {
+    this.clerkGuard = new ClerkAuthGuard(reflector);
+  }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+
+    if (isPublic) {
+      return true;
+    }
+
     const request = context.switchToHttp().getRequest<Request>();
-    const authHeader = request.headers.authorization;
+    const apiKey = this.extractApiKeyFromHeader(request);
 
-    if (!authHeader) {
-      throw new UnauthorizedException('No authentication provided');
-    }
-
-    if (!authHeader.startsWith('Bearer ')) {
-      throw new UnauthorizedException('Invalid authentication format');
-    }
-
-    const token = authHeader.substring(7);
-
-    try {
-      // First try JWT authentication
-      await this.jwtService.verifyAsync(token);
-      return true;
-    } catch {
-      // If JWT fails, try API key authentication
-      const isValidApiKey = await this.authService.validateApiKey(token);
-      if (!isValidApiKey) {
-        throw new UnauthorizedException('Invalid authentication');
+    // If API key is present, validate it using ApiKeyGuard
+    if (apiKey) {
+      try {
+        return await this.apiKeyGuard.canActivate(context);
+      } catch (error) {
+        throw new UnauthorizedException('Invalid API key');
       }
-      return true;
     }
+
+    // If no API key, fall back to Clerk authentication
+    try {
+      const result = this.clerkGuard.canActivate(context);
+
+      if (typeof result === 'boolean') {
+        return result;
+      }
+
+      // Handle Observable - convert to Promise
+      if (result instanceof Observable) {
+        return firstValueFrom(result);
+      }
+
+      // If it's already a Promise
+      return result;
+    } catch (error) {
+      throw new UnauthorizedException('Authentication required');
+    }
+  }
+
+  private extractApiKeyFromHeader(request: Request): string | undefined {
+    const authHeader = request.headers['x-api-key'];
+    return authHeader as string;
   }
 }

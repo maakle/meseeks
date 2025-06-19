@@ -4,8 +4,9 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { PrismaService } from '../../prisma/prisma.service';
+import { createHash } from 'crypto';
 import { Request } from 'express';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
@@ -33,15 +34,21 @@ export class ApiKeyGuard implements CanActivate {
   }
 
   private async validateApiKey(apiKey: string): Promise<boolean> {
+    const prefix = apiKey.slice(0, 8);
     const apiKeyRecord = await this.prisma.apiKey.findFirst({
       where: {
-        hashedKey: apiKey,
+        prefix,
         isActive: true,
         OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }],
       },
     });
 
     if (!apiKeyRecord) {
+      return false;
+    }
+
+    const hashedKey = createHash('sha256').update(apiKey).digest('hex');
+    if (hashedKey !== apiKeyRecord.hashedKey) {
       return false;
     }
 

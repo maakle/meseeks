@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { HandleServiceErrors } from '../common/decorators/error-handler.decorator';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpsertUserDto } from './dto/upsert-user';
-import { HandleServiceErrors } from '../common/decorators/error-handler.decorator';
-import { UserNotFoundError } from './errors';
 import { mapToUserResponseDto, UserResponseDto } from './dto/user-response.dto';
+import { UserNotFoundError } from './errors';
 
 @Injectable()
 @HandleServiceErrors(UserService.name)
