@@ -4,7 +4,7 @@ import { searchParamsCache } from "@/lib/searchparams";
 import { ProductTable } from "./product-tables";
 import { columns } from "./product-tables/columns";
 
-export default async function ProductListingPage() {
+export async function ProductListingPage() {
   // Showcasing the use of search params cache in nested RSCs
   const page = searchParamsCache.get("page");
   const search = searchParamsCache.get("name");

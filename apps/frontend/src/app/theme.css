@@ -26,61 +26,80 @@ body {
   }
 }
 
+/* Default theme - Light mode */
 .theme-default,
 .theme-default-scaled {
   --primary: var(--color-neutral-900);
   --primary-foreground: var(--color-neutral-50);
-
-  @variant dark {
-    --primary: var(--color-neutral-500);
-    --primary-foreground: var(--color-neutral-50);
-  }
 }
 
+/* Default theme - Dark mode */
+.dark .theme-default,
+.dark .theme-default-scaled {
+  --primary: var(--color-neutral-50);
+  --primary-foreground: var(--color-neutral-900);
+}
+
+/* Blue theme - Light mode */
 .theme-blue,
 .theme-blue-scaled {
   --primary: var(--color-blue-600);
   --primary-foreground: var(--color-blue-50);
-
-  @variant dark {
-    --primary: var(--color-blue-500);
-    --primary-foreground: var(--color-blue-50);
-  }
 }
 
+/* Blue theme - Dark mode */
+.dark .theme-blue,
+.dark .theme-blue-scaled {
+  --primary: var(--color-blue-500);
+  --primary-foreground: var(--color-blue-50);
+}
+
+/* Green theme - Light mode */
 .theme-green,
 .theme-green-scaled {
   --primary: var(--color-lime-600);
   --primary-foreground: var(--color-lime-50);
-
-  @variant dark {
-    --primary: var(--color-lime-600);
-    --primary-foreground: var(--color-lime-50);
-  }
 }
 
+/* Green theme - Dark mode */
+.dark .theme-green,
+.dark .theme-green-scaled {
+  --primary: var(--color-lime-600);
+  --primary-foreground: var(--color-lime-50);
+}
+
+/* Amber theme - Light mode */
 .theme-amber,
 .theme-amber-scaled {
   --primary: var(--color-amber-600);
   --primary-foreground: var(--color-amber-50);
-
-  @variant dark {
-    --primary: var(--color-amber-500);
-    --primary-foreground: var(--color-amber-50);
-  }
 }
 
+/* Amber theme - Dark mode */
+.dark .theme-amber,
+.dark .theme-amber-scaled {
+  --primary: var(--color-amber-500);
+  --primary-foreground: var(--color-amber-50);
+}
+
+/* Mono theme - Light mode */
 .theme-mono,
 .theme-mono-scaled {
   --font-sans: var(--font-mono);
   --primary: var(--color-neutral-600);
   --primary-foreground: var(--color-neutral-50);
+}
 
-  @variant dark {
-    --primary: var(--color-neutral-500);
-    --primary-foreground: var(--color-neutral-50);
-  }
+/* Mono theme - Dark mode */
+.dark .theme-mono,
+.dark .theme-mono-scaled {
+  --primary: var(--color-neutral-500);
+  --primary-foreground: var(--color-neutral-50);
+}
 
+/* Mono theme specific styles */
+.theme-mono,
+.theme-mono-scaled {
   .rounded-xs,
   .rounded-sm,
   .rounded-md,

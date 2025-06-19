@@ -10,30 +10,22 @@ import { ServicesSection } from "@/components/landing/services";
 import { SponsorsSection } from "@/components/landing/sponsors";
 import { TestimonialSection } from "@/components/landing/testimonial";
 import { Navbar } from "@/components/navbar";
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 
 export default async function Page() {
-  const { userId } = await auth();
-
-  if (userId) {
-    return redirect("/auth/sign-in");
-  } else {
-    return (
-      <>
-        <Navbar />
-        <HeroSection />
-        <SponsorsSection />
-        <BenefitsSection />
-        <FeaturesSection />
-        <ServicesSection />
-        <TestimonialSection />
-        <CommunitySection />
-        <PricingSection />
-        <ContactSection />
-        <FAQSection />
-        <FooterSection />
-      </>
-    );
-  }
+  return (
+    <>
+      <Navbar />
+      <HeroSection />
+      <SponsorsSection />
+      <BenefitsSection />
+      <FeaturesSection />
+      <ServicesSection />
+      <TestimonialSection />
+      <CommunitySection />
+      <PricingSection />
+      <ContactSection />
+      <FAQSection />
+      <FooterSection />
+    </>
+  );
 }

@@ -3,7 +3,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
 import { DataTableSkeleton } from "@/components/ui/table/data-table-skeleton";
-import ProductListingPage from "@/features/products/components/product-listing";
+import { ProductListingPage } from "@/features/products/components/product-listing";
 import { searchParamsCache } from "@/lib/searchparams";
 import { cn } from "@/lib/utils";
 import { IconPlus } from "@tabler/icons-react";
@@ -49,7 +49,7 @@ export default async function Page(props: pageProps) {
             <DataTableSkeleton columnCount={5} rowCount={8} filterCount={2} />
           }
         >
-          <ProductListingPage />
+          {await ProductListingPage()}
         </Suspense>
       </div>
     </PageContainer>

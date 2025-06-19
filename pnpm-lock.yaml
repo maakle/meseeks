@@ -160,10 +160,10 @@ importers:
   apps/frontend:
     dependencies:
       '@clerk/nextjs':
-        specifier: ^6.12.12
+        specifier: ^6.22.0
         version: 6.22.0(next@15.3.2)(react-dom@19.1.0)(react@19.1.0)
       '@clerk/themes':
-        specifier: ^2.2.26
+        specifier: ^2.2.50
         version: 2.2.50
       '@dnd-kit/core':
         specifier: ^6.3.1
@@ -409,6 +409,9 @@ importers:
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.11.0
         version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.48.0)(typescript@5.7.2)
+      eslint-plugin-unused-imports:
+        specifier: ^4.1.4
+        version: 4.1.4(@typescript-eslint/eslint-plugin@6.21.0)(eslint@8.48.0)
       husky:
         specifier: ^9.1.7
         version: 9.1.7
@@ -7177,6 +7180,19 @@ packages:
       semver: 6.3.1
       string.prototype.matchall: 4.0.12
       string.prototype.repeat: 1.0.0
+
+  /eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@6.21.0)(eslint@8.48.0):
+    resolution: {integrity: sha512-YptD6IzQjDardkl0POxnnRBhU1OEePMV0nd6siHaRBbd+lyh6NAhFEobiznKU7kTsSsDeSD62Pe7kAM1b7dAZQ==}
+    peerDependencies:
+      '@typescript-eslint/eslint-plugin': ^8.0.0-0 || ^7.0.0 || ^6.0.0 || ^5.0.0
+      eslint: ^9.0.0 || ^8.0.0
+    peerDependenciesMeta:
+      '@typescript-eslint/eslint-plugin':
+        optional: true
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.48.0)(typescript@5.7.2)
+      eslint: 8.48.0
+    dev: true
 
   /eslint-scope@5.1.1:
     resolution: {integrity: sha512-2NxwbF/hZ0KpepYN0cNbo+FN6XoK7GaHlQhgx/hIZl6Va0bF45RQOOwhLIy8lQDbuCiadSLCBnH2CFYquit5bw==}
