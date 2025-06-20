@@ -1,5 +1,16 @@
-import { Body, Controller, HttpCode, Logger, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  Logger,
+  Post,
+  Req,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Request } from 'express';
+import { Webhook } from 'svix';
 import { Public } from '../common/decorators/public.decorator';
 import {
   ClerkWebhookEventDto,
@@ -18,7 +29,10 @@ import { UserService } from './user.service';
 export class WebhookController {
   private readonly logger = new Logger(WebhookController.name);
 
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @Post('clerk')
   @Public()
@@ -26,10 +40,14 @@ export class WebhookController {
   @ApiOperation({ summary: 'Handle Clerk webhook events' })
   @ApiResponse({ status: 200, description: 'Webhook processed successfully' })
   @ApiResponse({ status: 400, description: 'Invalid webhook payload' })
+  @ApiResponse({ status: 401, description: 'Invalid webhook signature' })
   async handleClerkWebhook(
+    @Req() request: Request,
     @Body() event: ClerkWebhookEventDto,
   ): Promise<{ received: boolean }> {
     this.logger.log(`Received Clerk webhook event: ${event.type}`);
+
+    await this.verifyWebhookSignature(request);
 
     try {
       switch (event.type) {
@@ -69,6 +87,34 @@ export class WebhookController {
     } catch (error) {
       this.logger.error(`Error processing webhook event ${event.type}:`, error);
       throw error;
+    }
+  }
+
+  private async verifyWebhookSignature(request: Request): Promise<void> {
+    const webhookSecret = this.configService.get<string>(
+      'CLERK_WEBHOOK_SECRET',
+    );
+
+    if (!webhookSecret) {
+      this.logger.error('CLERK_WEBHOOK_SECRET is not configured');
+      throw new UnauthorizedException('Webhook secret not configured');
+    }
+
+    const headers = {
+      'svix-id': request.headers['svix-id'] as string,
+      'svix-timestamp': request.headers['svix-timestamp'] as string,
+      'svix-signature': request.headers['svix-signature'] as string,
+    };
+
+    const payload = JSON.stringify(request.body);
+
+    try {
+      const wh = new Webhook(webhookSecret);
+      wh.verify(payload, headers);
+      this.logger.log('Webhook signature verified successfully');
+    } catch (error) {
+      this.logger.warn('Webhook signature verification failed', error);
+      throw new UnauthorizedException('Invalid webhook signature');
     }
   }
 

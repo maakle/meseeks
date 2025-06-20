@@ -1,4 +1,6 @@
+import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Request } from 'express';
 import { UserService } from './user.service';
 import { WebhookController } from './webhook.controller';
 
@@ -10,6 +12,19 @@ describe('WebhookController', () => {
     deleteUserByClerkId: jest.fn(),
   };
 
+  const mockConfigService = {
+    get: jest.fn(),
+  };
+
+  const mockRequest = {
+    headers: {
+      'svix-id': 'test-svix-id',
+      'svix-timestamp': '1234567890',
+      'svix-signature': 'test-signature',
+    },
+    body: {},
+  } as unknown as Request;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [WebhookController],
@@ -18,10 +33,17 @@ describe('WebhookController', () => {
           provide: UserService,
           useValue: mockUserService,
         },
+        {
+          provide: ConfigService,
+          useValue: mockConfigService,
+        },
       ],
     }).compile();
 
     controller = module.get<WebhookController>(WebhookController);
+
+    // Mock the webhook secret
+    mockConfigService.get.mockReturnValue('test-webhook-secret');
   });
 
   it('should be defined', () => {
@@ -77,6 +99,9 @@ describe('WebhookController', () => {
         timestamp: 1654012591835,
       };
 
+      // Mock the request body
+      mockRequest.body = mockEvent;
+
       mockUserService.upsertClerkUser.mockResolvedValue({
         id: 'local_user_123',
         clerkUserId: 'user_123',
@@ -84,7 +109,10 @@ describe('WebhookController', () => {
         phoneNumber: null,
       });
 
-      const result = await controller.handleClerkWebhook(mockEvent);
+      const result = await controller.handleClerkWebhook(
+        mockRequest,
+        mockEvent,
+      );
 
       expect(result).toEqual({ received: true });
       expect(mockUserService.upsertClerkUser).toHaveBeenCalledWith({
@@ -150,6 +178,9 @@ describe('WebhookController', () => {
         timestamp: 1654012824306,
       };
 
+      // Mock the request body
+      mockRequest.body = mockEvent;
+
       mockUserService.upsertClerkUser.mockResolvedValue({
         id: 'local_user_123',
         clerkUserId: 'user_123',
@@ -157,7 +188,10 @@ describe('WebhookController', () => {
         phoneNumber: '+1234567890',
       });
 
-      const result = await controller.handleClerkWebhook(mockEvent);
+      const result = await controller.handleClerkWebhook(
+        mockRequest,
+        mockEvent,
+      );
 
       expect(result).toEqual({ received: true });
       expect(mockUserService.upsertClerkUser).toHaveBeenCalledWith({
@@ -185,9 +219,15 @@ describe('WebhookController', () => {
         timestamp: 1661861640000,
       };
 
+      // Mock the request body
+      mockRequest.body = mockEvent;
+
       mockUserService.deleteUserByClerkId.mockResolvedValue(undefined);
 
-      const result = await controller.handleClerkWebhook(mockEvent);
+      const result = await controller.handleClerkWebhook(
+        mockRequest,
+        mockEvent,
+      );
 
       expect(result).toEqual({ received: true });
       expect(mockUserService.deleteUserByClerkId).toHaveBeenCalledWith(
@@ -235,7 +275,13 @@ describe('WebhookController', () => {
         timestamp: 1661861640000,
       };
 
-      const result = await controller.handleClerkWebhook(mockEvent);
+      // Mock the request body
+      mockRequest.body = mockEvent;
+
+      const result = await controller.handleClerkWebhook(
+        mockRequest,
+        mockEvent,
+      );
 
       expect(result).toEqual({ received: true });
       expect(mockUserService.upsertClerkUser).not.toHaveBeenCalled();

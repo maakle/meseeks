@@ -11,5 +11,8 @@
     "typescriptreact"
   ],
   "typescript.preferences.organizeImports": true,
-  "typescript.suggest.autoImports": true
+  "typescript.suggest.autoImports": true,
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 } 
