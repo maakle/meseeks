@@ -251,25 +251,26 @@ describe('WebhookController', () => {
       const mockEvent = {
         type: 'organization.created' as const,
         data: {
-          id: 'org_123',
-          name: 'Test Organization',
-          slug: 'test-org',
-          image_url: null,
-          created_at: 1654012591514,
-          updated_at: 1654012591835,
+          id: 'org_29w9IfBrPmcpi0IeBVaKtA7R94W',
+          name: 'Acme Inc',
+          slug: 'acme-inc',
+          image_url: 'https://img.clerk.com/xxxxxx',
+          logo_url: 'https://example.org/example.png',
+          created_at: 1654013202977,
+          updated_at: 1654013202977,
+          created_by: 'user_1vq84bqWzw7qmFgqSwN4CH1Wp0n',
           object: 'organization' as const,
           public_metadata: {},
-          private_metadata: {},
-          unsafe_metadata: {},
         },
         event_attributes: {
           http_request: {
             client_ip: '0.0.0.0',
-            user_agent: 'test-agent',
+            user_agent:
+              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
           },
         },
         object: 'event' as const,
-        timestamp: 1654012591835,
+        timestamp: 1654013202977,
       };
 
       // Mock the request body
@@ -296,25 +297,25 @@ describe('WebhookController', () => {
       const mockEvent = {
         type: 'organization.updated' as const,
         data: {
-          id: 'org_123',
-          name: 'Updated Organization',
-          slug: 'updated-org',
-          image_url: null,
-          created_at: 1654012591514,
-          updated_at: 1654012824306,
+          id: 'org_29w9IfBrPmcpi0IeBVaKtA7R94W',
+          name: 'Acme Inc',
+          slug: 'acme-inc',
+          image_url: 'https://img.clerk.com/xxxxxx',
+          logo_url: 'https://example.com/example.png',
+          created_at: 1654013202977,
+          updated_at: 1654013466465,
+          created_by: 'user_1vq84bqWzw7qmFgqSwN4CH1Wp0n',
           object: 'organization' as const,
           public_metadata: {},
-          private_metadata: {},
-          unsafe_metadata: {},
         },
         event_attributes: {
           http_request: {
-            client_ip: '0.0.0.0',
-            user_agent: 'test-agent',
+            client_ip: '',
+            user_agent: '',
           },
         },
         object: 'event' as const,
-        timestamp: 1654012824306,
+        timestamp: 1654013466465,
       };
 
       // Mock the request body
@@ -342,13 +343,13 @@ describe('WebhookController', () => {
         type: 'organization.deleted' as const,
         data: {
           deleted: true as const,
-          id: 'org_123',
+          id: 'org_29w9IfBrPmcpi0IeBVaKtA7R94W',
           object: 'organization' as const,
         },
         event_attributes: {
           http_request: {
-            client_ip: '0.0.0.0',
-            user_agent: 'test-agent',
+            client_ip: '',
+            user_agent: '',
           },
         },
         object: 'event' as const,

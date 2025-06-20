@@ -70,11 +70,17 @@ export class OrganizationsService {
       update: {
         name: dto.name || '',
         slug: dto.slug || '',
+        imageUrl: dto.imageUrl,
+        logoUrl: dto.logoUrl,
+        createdBy: dto.createdBy,
       },
       create: {
         clerkOrganizationId: dto.clerkOrganizationId,
         name: dto.name || '',
         slug: dto.slug || '',
+        imageUrl: dto.imageUrl,
+        logoUrl: dto.logoUrl,
+        createdBy: dto.createdBy,
       },
       include: {
         apiKeys: true,

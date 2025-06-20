@@ -7,12 +7,14 @@ const OrganizationDataSchema = z.object({
   name: z.string().nullable(),
   slug: z.string().nullable(),
   image_url: z.string().nullable(),
+  logo_url: z.string().nullable(),
   created_at: z.number(),
   updated_at: z.number(),
+  created_by: z.string().nullable(),
   object: z.literal('organization'),
-  public_metadata: z.record(z.any()),
-  private_metadata: z.record(z.any()),
-  unsafe_metadata: z.record(z.any()),
+  public_metadata: z.record(z.any()).optional(),
+  private_metadata: z.record(z.any()).optional(),
+  unsafe_metadata: z.record(z.any()).optional(),
 });
 
 // Organization data schema for deleted events

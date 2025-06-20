@@ -270,32 +270,36 @@ describe('WebhookService', () => {
       const mockEvent = {
         type: 'organization.created',
         data: {
-          id: 'org_123',
-          name: 'Test Organization',
-          slug: 'test-org',
-          image_url: null,
-          created_at: 1654012591514,
-          updated_at: 1654012591835,
+          id: 'org_29w9IfBrPmcpi0IeBVaKtA7R94W',
+          name: 'Acme Inc',
+          slug: 'acme-inc',
+          image_url: 'https://img.clerk.com/xxxxxx',
+          logo_url: 'https://example.org/example.png',
+          created_at: 1654013202977,
+          updated_at: 1654013202977,
+          created_by: 'user_1vq84bqWzw7qmFgqSwN4CH1Wp0n',
           object: 'organization',
           public_metadata: {},
-          private_metadata: {},
-          unsafe_metadata: {},
         },
         event_attributes: {
           http_request: {
             client_ip: '0.0.0.0',
-            user_agent: 'test-agent',
+            user_agent:
+              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
           },
         },
         object: 'event',
-        timestamp: 1654012591835,
+        timestamp: 1654013202977,
       };
 
       mockOrganizationsService.upsertClerkOrganization.mockResolvedValue({
         id: 'local_org_123',
-        clerkOrganizationId: 'org_123',
-        name: 'Test Organization',
-        slug: 'test-org',
+        clerkOrganizationId: 'org_29w9IfBrPmcpi0IeBVaKtA7R94W',
+        name: 'Acme Inc',
+        slug: 'acme-inc',
+        imageUrl: 'https://img.clerk.com/xxxxxx',
+        logoUrl: 'https://example.org/example.png',
+        createdBy: 'user_1vq84bqWzw7qmFgqSwN4CH1Wp0n',
       });
 
       await service.handleOrganizationEvent(mockEvent);
@@ -303,9 +307,12 @@ describe('WebhookService', () => {
       expect(
         mockOrganizationsService.upsertClerkOrganization,
       ).toHaveBeenCalledWith({
-        clerkOrganizationId: 'org_123',
-        name: 'Test Organization',
-        slug: 'test-org',
+        clerkOrganizationId: 'org_29w9IfBrPmcpi0IeBVaKtA7R94W',
+        name: 'Acme Inc',
+        slug: 'acme-inc',
+        imageUrl: 'https://img.clerk.com/xxxxxx',
+        logoUrl: 'https://example.org/example.png',
+        createdBy: 'user_1vq84bqWzw7qmFgqSwN4CH1Wp0n',
       });
     });
 
@@ -313,32 +320,35 @@ describe('WebhookService', () => {
       const mockEvent = {
         type: 'organization.updated',
         data: {
-          id: 'org_123',
-          name: 'Updated Organization',
-          slug: 'updated-org',
-          image_url: null,
-          created_at: 1654012591514,
-          updated_at: 1654012824306,
+          id: 'org_29w9IfBrPmcpi0IeBVaKtA7R94W',
+          name: 'Acme Inc',
+          slug: 'acme-inc',
+          image_url: 'https://img.clerk.com/xxxxxx',
+          logo_url: 'https://example.com/example.png',
+          created_at: 1654013202977,
+          updated_at: 1654013466465,
+          created_by: 'user_1vq84bqWzw7qmFgqSwN4CH1Wp0n',
           object: 'organization',
           public_metadata: {},
-          private_metadata: {},
-          unsafe_metadata: {},
         },
         event_attributes: {
           http_request: {
-            client_ip: '0.0.0.0',
-            user_agent: 'test-agent',
+            client_ip: '',
+            user_agent: '',
           },
         },
         object: 'event',
-        timestamp: 1654012824306,
+        timestamp: 1654013466465,
       };
 
       mockOrganizationsService.upsertClerkOrganization.mockResolvedValue({
         id: 'local_org_123',
-        clerkOrganizationId: 'org_123',
-        name: 'Updated Organization',
-        slug: 'updated-org',
+        clerkOrganizationId: 'org_29w9IfBrPmcpi0IeBVaKtA7R94W',
+        name: 'Acme Inc',
+        slug: 'acme-inc',
+        imageUrl: 'https://img.clerk.com/xxxxxx',
+        logoUrl: 'https://example.com/example.png',
+        createdBy: 'user_1vq84bqWzw7qmFgqSwN4CH1Wp0n',
       });
 
       await service.handleOrganizationEvent(mockEvent);
@@ -346,9 +356,12 @@ describe('WebhookService', () => {
       expect(
         mockOrganizationsService.upsertClerkOrganization,
       ).toHaveBeenCalledWith({
-        clerkOrganizationId: 'org_123',
-        name: 'Updated Organization',
-        slug: 'updated-org',
+        clerkOrganizationId: 'org_29w9IfBrPmcpi0IeBVaKtA7R94W',
+        name: 'Acme Inc',
+        slug: 'acme-inc',
+        imageUrl: 'https://img.clerk.com/xxxxxx',
+        logoUrl: 'https://example.com/example.png',
+        createdBy: 'user_1vq84bqWzw7qmFgqSwN4CH1Wp0n',
       });
     });
 
@@ -357,13 +370,13 @@ describe('WebhookService', () => {
         type: 'organization.deleted',
         data: {
           deleted: true,
-          id: 'org_123',
+          id: 'org_29w9IfBrPmcpi0IeBVaKtA7R94W',
           object: 'organization',
         },
         event_attributes: {
           http_request: {
-            client_ip: '0.0.0.0',
-            user_agent: 'test-agent',
+            client_ip: '',
+            user_agent: '',
           },
         },
         object: 'event',
@@ -378,7 +391,7 @@ describe('WebhookService', () => {
 
       expect(
         mockOrganizationsService.deleteOrganizationByClerkId,
-      ).toHaveBeenCalledWith('org_123');
+      ).toHaveBeenCalledWith('org_29w9IfBrPmcpi0IeBVaKtA7R94W');
     });
 
     it('should handle unknown organization event type', async () => {

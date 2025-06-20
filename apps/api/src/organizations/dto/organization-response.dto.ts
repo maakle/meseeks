@@ -10,6 +10,9 @@ export const OrganizationResponseSchema = z.object({
   id: z.string(),
   name: z.string(),
   slug: z.string(),
+  imageUrl: z.string().nullable(),
+  logoUrl: z.string().nullable(),
+  createdBy: z.string().nullable(),
   apiKeys: z.array(z.custom<ApiKeyResponseDto>()),
 });
 
@@ -26,6 +29,9 @@ export const mapToOrganizationResponseDto = (
     id: prisma.id,
     name: prisma.name,
     slug: prisma.slug,
+    imageUrl: prisma.imageUrl,
+    logoUrl: prisma.logoUrl,
+    createdBy: prisma.createdBy,
     apiKeys: prisma.apiKeys.map(mapToApiKeyResponseDto),
   });
 };

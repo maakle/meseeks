@@ -39,6 +39,9 @@ model Organization {
   memberships         OrganizationMembership[]
   name                String
   slug                String
+  imageUrl            String?
+  logoUrl             String?
+  createdBy           String?
   apiKeys             ApiKey[]
   createdAt           DateTime                 @default(now())
   updatedAt           DateTime                 @updatedAt
