@@ -1,74 +1,35 @@
 import { createZodDto } from 'nestjs-zod';
 import z from 'zod';
-
-// Organization data schema for created and updated events
-const OrganizationDataSchema = z.object({
-  id: z.string(),
-  name: z.string().nullable(),
-  slug: z.string().nullable(),
-  image_url: z.string().nullable(),
-  logo_url: z.string().nullable(),
-  created_at: z.number(),
-  updated_at: z.number(),
-  created_by: z.string().nullable(),
-  object: z.literal('organization'),
-  public_metadata: z.record(z.any()).optional(),
-  private_metadata: z.record(z.any()).optional(),
-  unsafe_metadata: z.record(z.any()).optional(),
-});
-
-// Organization data schema for deleted events
-const DeletedOrganizationDataSchema = z.object({
-  deleted: z.literal(true),
-  id: z.string(),
-  object: z.literal('organization'),
-});
-
-// Event attributes schema
-const EventAttributesSchema = z.object({
-  http_request: z.object({
-    client_ip: z.string(),
-    user_agent: z.string(),
-  }),
-});
-
-// Base event schema
-const BaseEventSchema = z.object({
-  event_attributes: EventAttributesSchema,
-  object: z.literal('event'),
-  timestamp: z.number(),
-});
+import {
+  createEventSchema,
+  createWebhookEventSchema,
+  DeletedOrganizationDataSchema,
+  OrganizationDataSchema,
+} from './shared-schemas';
 
 // Organization created event
-export const OrganizationCreatedEventSchema = BaseEventSchema.extend({
-  type: z.literal('organization.created'),
-  data: OrganizationDataSchema,
-});
+export const OrganizationCreatedEventSchema = createEventSchema(
+  'organization.created',
+  OrganizationDataSchema,
+);
 
 // Organization updated event
-export const OrganizationUpdatedEventSchema = BaseEventSchema.extend({
-  type: z.literal('organization.updated'),
-  data: OrganizationDataSchema,
-});
+export const OrganizationUpdatedEventSchema = createEventSchema(
+  'organization.updated',
+  OrganizationDataSchema,
+);
 
 // Organization deleted event
-export const OrganizationDeletedEventSchema = BaseEventSchema.extend({
-  type: z.literal('organization.deleted'),
-  data: DeletedOrganizationDataSchema,
-});
+export const OrganizationDeletedEventSchema = createEventSchema(
+  'organization.deleted',
+  DeletedOrganizationDataSchema,
+);
 
 // Generic organization webhook event schema
-export const ClerkOrganizationWebhookEventSchema = z.object({
-  type: z.enum([
-    'organization.created',
-    'organization.updated',
-    'organization.deleted',
-  ]),
-  data: z.union([OrganizationDataSchema, DeletedOrganizationDataSchema]),
-  event_attributes: EventAttributesSchema,
-  object: z.literal('event'),
-  timestamp: z.number(),
-});
+export const ClerkOrganizationWebhookEventSchema = createWebhookEventSchema(
+  ['organization.created', 'organization.updated', 'organization.deleted'],
+  z.union([OrganizationDataSchema, DeletedOrganizationDataSchema]),
+);
 
 export class ClerkOrganizationWebhookEventDto extends createZodDto(
   ClerkOrganizationWebhookEventSchema,

@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { ClerkModule } from './clerk/clerk.module';
 import { MessageModule } from './message/message.module';
 import { OpenaiModule } from './openai/openai.module';
+import { OrganizationMembershipModule } from './organization-membership/organization-membership.module';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { StabilityaiModule } from './stabilityai/stabilityai.module';
@@ -34,6 +35,7 @@ import { ClerkClientProvider } from './common/providers/clerk-client.provider';
     MessageModule,
     AuthModule,
     OrganizationsModule,
+    OrganizationMembershipModule,
     ApiKeysModule,
   ],
   controllers: [AppController],

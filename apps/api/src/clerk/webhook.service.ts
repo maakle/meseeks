@@ -2,8 +2,17 @@ import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { Webhook } from 'svix';
+import { OrganizationMembershipService } from '../organization-membership/organization-membership.service';
 import { OrganizationsService } from '../organizations/organizations.service';
 import { UserService } from '../user/user.service';
+import {
+  OrganizationMembershipCreatedEvent,
+  OrganizationMembershipDeletedEvent,
+  OrganizationMembershipUpdatedEvent,
+  isOrganizationMembershipCreatedEvent,
+  isOrganizationMembershipDeletedEvent,
+  isOrganizationMembershipUpdatedEvent,
+} from './dto/clerk-organization-membership-webhook.dto';
 import {
   OrganizationCreatedEvent,
   OrganizationDeletedEvent,
@@ -19,7 +28,8 @@ import {
   isUserCreatedEvent,
   isUserDeletedEvent,
   isUserUpdatedEvent,
-} from './dto/clerk-webhook.dto';
+} from './dto/clerk-user-webhook.dto';
+import { UpsertClerkOrganizationMembershipDto } from './dto/upsert-clerk-organization-membership.dto';
 import { UpsertClerkOrganizationDto } from './dto/upsert-clerk-organization.dto';
 import { UpsertClerkUserDto } from './dto/upsert-clerk-user.dto';
 
@@ -30,6 +40,7 @@ export class WebhookService {
   constructor(
     private readonly userService: UserService,
     private readonly organizationsService: OrganizationsService,
+    private readonly organizationMembershipService: OrganizationMembershipService,
     private readonly configService: ConfigService,
   ) {}
 
@@ -131,6 +142,42 @@ export class WebhookService {
     }
   }
 
+  async handleOrganizationMembershipEvent(event: any): Promise<void> {
+    switch (event.type) {
+      case 'organizationMembership.created':
+        if (isOrganizationMembershipCreatedEvent(event)) {
+          await this.handleOrganizationMembershipCreated(event);
+        } else {
+          this.logger.warn(
+            'Received organizationMembership.created event with invalid data structure',
+          );
+        }
+        break;
+      case 'organizationMembership.updated':
+        if (isOrganizationMembershipUpdatedEvent(event)) {
+          await this.handleOrganizationMembershipUpdated(event);
+        } else {
+          this.logger.warn(
+            'Received organizationMembership.updated event with invalid data structure',
+          );
+        }
+        break;
+      case 'organizationMembership.deleted':
+        if (isOrganizationMembershipDeletedEvent(event)) {
+          await this.handleOrganizationMembershipDeleted(event);
+        } else {
+          this.logger.warn(
+            'Received organizationMembership.deleted event with invalid data structure',
+          );
+        }
+        break;
+      default:
+        this.logger.warn(
+          `Unhandled organization membership webhook event type: ${event.type}`,
+        );
+    }
+  }
+
   private async handleUserCreated(event: UserCreatedEvent): Promise<void> {
     await this.upsertUserFromClerkData(event.data, 'Created');
   }
@@ -161,6 +208,30 @@ export class WebhookService {
   ): Promise<void> {
     await this.organizationsService.deleteOrganizationByClerkId(event.data.id);
     this.logger.log(`Deleted organization with Clerk ID: ${event.data.id}`);
+  }
+
+  private async handleOrganizationMembershipCreated(
+    event: OrganizationMembershipCreatedEvent,
+  ): Promise<void> {
+    await this.upsertOrganizationMembershipFromClerkData(event.data, 'Created');
+  }
+
+  private async handleOrganizationMembershipUpdated(
+    event: OrganizationMembershipUpdatedEvent,
+  ): Promise<void> {
+    await this.upsertOrganizationMembershipFromClerkData(event.data, 'Updated');
+  }
+
+  private async handleOrganizationMembershipDeleted(
+    event: OrganizationMembershipDeletedEvent,
+  ): Promise<void> {
+    await this.organizationMembershipService.deleteOrganizationMembershipByClerkIds(
+      event.data.public_user_data.user_id,
+      event.data.organization.id,
+    );
+    this.logger.log(
+      `Deleted organization membership with Clerk ID: ${event.data.id}`,
+    );
   }
 
   private async upsertUserFromClerkData(
@@ -207,5 +278,26 @@ export class WebhookService {
 
     await this.organizationsService.upsertClerkOrganization(upsertDto);
     this.logger.log(`${action} organization with Clerk ID: ${data.id}`);
+  }
+
+  private async upsertOrganizationMembershipFromClerkData(
+    data:
+      | OrganizationMembershipCreatedEvent['data']
+      | OrganizationMembershipUpdatedEvent['data'],
+    action: 'Created' | 'Updated',
+  ): Promise<void> {
+    const upsertDto: UpsertClerkOrganizationMembershipDto = {
+      clerkMembershipId: data.id,
+      clerkUserId: data.public_user_data.user_id,
+      clerkOrganizationId: data.organization.id,
+      role: data.role,
+    };
+
+    await this.organizationMembershipService.upsertClerkOrganizationMembership(
+      upsertDto,
+    );
+    this.logger.log(
+      `${action} organization membership with Clerk ID: ${data.id}`,
+    );
   }
 }

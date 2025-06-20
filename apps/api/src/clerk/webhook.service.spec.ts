@@ -2,12 +2,14 @@ import { UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Request } from 'express';
+import { OrganizationMembershipService } from '../organization-membership/organization-membership.service';
 import { OrganizationsService } from '../organizations/organizations.service';
 import { UserService } from '../user/user.service';
 import { WebhookService } from './webhook.service';
 
 describe('WebhookService', () => {
   let service: WebhookService;
+  let organizationMembershipService: OrganizationMembershipService;
 
   const mockUserService = {
     upsertClerkUser: jest.fn(),
@@ -48,10 +50,20 @@ describe('WebhookService', () => {
           provide: ConfigService,
           useValue: mockConfigService,
         },
+        {
+          provide: OrganizationMembershipService,
+          useValue: {
+            upsertClerkOrganizationMembership: jest.fn(),
+            deleteOrganizationMembershipByClerkIds: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     service = module.get<WebhookService>(WebhookService);
+    organizationMembershipService = module.get<OrganizationMembershipService>(
+      OrganizationMembershipService,
+    );
 
     // Mock the webhook secret
     mockConfigService.get.mockReturnValue('test-webhook-secret');
@@ -408,6 +420,189 @@ describe('WebhookService', () => {
       expect(
         mockOrganizationsService.deleteOrganizationByClerkId,
       ).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('handleOrganizationMembershipEvent', () => {
+    it('should handle organizationMembership.created event', async () => {
+      const event = {
+        type: 'organizationMembership.created',
+        data: {
+          id: 'orgmem_test123',
+          object: 'organization_membership',
+          organization: {
+            id: 'org_test123',
+            name: 'Test Org',
+            slug: 'test-org',
+            image_url: null,
+            logo_url: null,
+            created_by: 'user_test123',
+            created_at: 1654013202977,
+            updated_at: 1654013202977,
+            object: 'organization',
+            public_metadata: {},
+          },
+          public_user_data: {
+            user_id: 'user_test123',
+            identifier: 'test@example.com',
+            first_name: 'Test',
+            last_name: 'User',
+            image_url: null,
+            profile_image_url: null,
+          },
+          role: 'admin',
+          created_at: 1654013203217,
+          updated_at: 1654013203217,
+        },
+        object: 'event',
+        timestamp: 1654013203217,
+        event_attributes: {
+          http_request: {
+            client_ip: '0.0.0.0',
+            user_agent: 'test-agent',
+          },
+        },
+      };
+
+      const upsertSpy = jest.spyOn(
+        organizationMembershipService,
+        'upsertClerkOrganizationMembership',
+      );
+
+      await service.handleOrganizationMembershipEvent(event);
+
+      expect(upsertSpy).toHaveBeenCalledWith({
+        clerkMembershipId: 'orgmem_test123',
+        clerkUserId: 'user_test123',
+        clerkOrganizationId: 'org_test123',
+        role: 'admin',
+      });
+    });
+
+    it('should handle organizationMembership.updated event', async () => {
+      const event = {
+        type: 'organizationMembership.updated',
+        data: {
+          id: 'orgmem_test123',
+          object: 'organization_membership',
+          organization: {
+            id: 'org_test123',
+            name: 'Test Org',
+            slug: 'test-org',
+            image_url: null,
+            logo_url: null,
+            created_by: 'user_test123',
+            created_at: 1654013202977,
+            updated_at: 1654013202977,
+            object: 'organization',
+            public_metadata: {},
+          },
+          public_user_data: {
+            user_id: 'user_test123',
+            identifier: 'test@example.com',
+            first_name: 'Test',
+            last_name: 'User',
+            image_url: null,
+            profile_image_url: null,
+          },
+          role: 'basic_member',
+          created_at: 1654013203217,
+          updated_at: 1654013910646,
+        },
+        object: 'event',
+        timestamp: 1654013910646,
+        event_attributes: {
+          http_request: {
+            client_ip: '0.0.0.0',
+            user_agent: 'test-agent',
+          },
+        },
+      };
+
+      const upsertSpy = jest.spyOn(
+        organizationMembershipService,
+        'upsertClerkOrganizationMembership',
+      );
+
+      await service.handleOrganizationMembershipEvent(event);
+
+      expect(upsertSpy).toHaveBeenCalledWith({
+        clerkMembershipId: 'orgmem_test123',
+        clerkUserId: 'user_test123',
+        clerkOrganizationId: 'org_test123',
+        role: 'basic_member',
+      });
+    });
+
+    it('should handle organizationMembership.deleted event', async () => {
+      const event = {
+        type: 'organizationMembership.deleted',
+        data: {
+          id: 'orgmem_test123',
+          object: 'organization_membership',
+          organization: {
+            id: 'org_test123',
+            name: 'Test Org',
+            slug: 'test-org',
+            image_url: null,
+            logo_url: null,
+            created_by: 'user_test123',
+            created_at: 1654013202977,
+            updated_at: 1654013567994,
+            object: 'organization',
+            public_metadata: {},
+          },
+          public_user_data: {
+            user_id: 'user_test123',
+            identifier: 'test@example.com',
+            first_name: null,
+            last_name: null,
+            image_url: null,
+            profile_image_url: null,
+          },
+          role: 'basic_member',
+          created_at: 1654013847054,
+          updated_at: 1654013847054,
+        },
+        object: 'event',
+        timestamp: 1654013847054,
+        event_attributes: {
+          http_request: {
+            client_ip: '0.0.0.0',
+            user_agent: 'test-agent',
+          },
+        },
+      };
+
+      const deleteSpy = jest.spyOn(
+        organizationMembershipService,
+        'deleteOrganizationMembershipByClerkIds',
+      );
+
+      await service.handleOrganizationMembershipEvent(event);
+
+      expect(deleteSpy).toHaveBeenCalledWith('user_test123', 'org_test123');
+    });
+
+    it('should handle unknown organization membership event type', async () => {
+      const event = {
+        type: 'organizationMembership.unknown',
+        data: {},
+      };
+
+      const upsertSpy = jest.spyOn(
+        organizationMembershipService,
+        'upsertClerkOrganizationMembership',
+      );
+      const deleteSpy = jest.spyOn(
+        organizationMembershipService,
+        'deleteOrganizationMembershipByClerkIds',
+      );
+
+      await service.handleOrganizationMembershipEvent(event);
+
+      expect(upsertSpy).not.toHaveBeenCalled();
+      expect(deleteSpy).not.toHaveBeenCalled();
     });
   });
 });

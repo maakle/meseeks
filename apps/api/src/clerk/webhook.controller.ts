@@ -20,7 +20,7 @@ export class WebhookController {
   @ApiResponse({ status: 401, description: 'Invalid webhook signature' })
   async handleClerkWebhook(
     @Req() request: Request,
-    @Body() event: any, // Using any for now to handle both user and organization events
+    @Body() event: any, // Using any for now to handle user, organization, and organization membership events
   ): Promise<{ received: boolean }> {
     this.logger.log(`Received Clerk webhook event: ${event.type}`);
 
@@ -34,6 +34,10 @@ export class WebhookController {
       // Handle organization events
       else if (event.type.startsWith('organization.')) {
         await this.webhookService.handleOrganizationEvent(event);
+      }
+      // Handle organization membership events
+      else if (event.type.startsWith('organizationMembership.')) {
+        await this.webhookService.handleOrganizationMembershipEvent(event);
       } else {
         this.logger.warn(`Unhandled webhook event type: ${event.type}`);
       }
