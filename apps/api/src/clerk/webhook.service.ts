@@ -274,7 +274,7 @@ export class WebhookService {
       slug: data.slug,
       imageUrl: data.image_url,
       logoUrl: data.logo_url,
-      createdBy: data.created_by,
+      createdBy: data.created_by ?? null,
     };
 
     await this.organizationsService.upsertClerkOrganization(upsertDto);
