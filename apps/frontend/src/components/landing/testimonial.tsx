@@ -80,7 +80,7 @@ export const TestimonialSection = () => {
   return (
     <section
       id="testimonials"
-      className="md:max-w-[75%] mx-auto pb-24 sm:pb-32"
+      className="md:max-w-[75%] mx-auto pb-24 sm:pb-32 px-6"
     >
       <div className="text-center mb-8">
         <h2 className="text-lg text-primary text-center mb-2 tracking-wider">

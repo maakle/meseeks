@@ -1,8 +1,8 @@
 "use client";
 
 import { Icon } from "@/components/ui/icon";
-import Marquee from "react-fast-marquee";
 import { icons } from "lucide-react";
+import Marquee from "react-fast-marquee";
 
 interface sponsorsProps {
   icon: string;
@@ -42,7 +42,7 @@ const sponsors: sponsorsProps[] = [
 
 export const SponsorsSection = () => {
   return (
-    <section id="sponsors" className="max-w-[75%] mx-auto pb-24 sm:pb-32">
+    <section id="sponsors" className="max-w-[75%] mx-auto pb-24 sm:pb-32 px-6">
       <h2 className="text-lg md:text-xl text-center mb-6">Trusted by</h2>
 
       <div className="mt-4 mx-auto">

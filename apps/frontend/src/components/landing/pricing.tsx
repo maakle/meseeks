@@ -73,7 +73,10 @@ const plans: PlanProps[] = [
 
 export const PricingSection = () => {
   return (
-    <section className="md:max-w-[75%] mx-auto pb-24 sm:pb-32">
+    <section
+      id="pricing"
+      className="md:max-w-[75%] mx-auto pb-24 sm:pb-32 px-6"
+    >
       <h2 className="text-lg text-primary text-center mb-2 tracking-wider">
         Pricing
       </h2>

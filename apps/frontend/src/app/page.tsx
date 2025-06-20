@@ -1,6 +1,4 @@
 import { BenefitsSection } from "@/components/landing/benefits";
-import { CommunitySection } from "@/components/landing/community";
-import { ContactSection } from "@/components/landing/contact";
 import { FAQSection } from "@/components/landing/faq";
 import { FeaturesSection } from "@/components/landing/features";
 import { FooterSection } from "@/components/landing/footer";
@@ -21,9 +19,7 @@ export default async function Page() {
       <FeaturesSection />
       <ServicesSection />
       <TestimonialSection />
-      <CommunitySection />
       <PricingSection />
-      <ContactSection />
       <FAQSection />
       <FooterSection />
     </>

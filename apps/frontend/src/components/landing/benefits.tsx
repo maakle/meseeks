@@ -37,7 +37,10 @@ const benefitList: BenefitsProps[] = [
 
 export const BenefitsSection = () => {
   return (
-    <section id="benefits" className="md:max-w-[75%] mx-auto pb-24 sm:pb-32">
+    <section
+      id="benefits"
+      className="md:max-w-[75%] mx-auto pb-24 sm:pb-32 px-6"
+    >
       <div className="grid lg:grid-cols-2 place-items-center lg:gap-24">
         <div>
           <h2 className="text-lg text-primary mb-2 tracking-wider">Benefits</h2>

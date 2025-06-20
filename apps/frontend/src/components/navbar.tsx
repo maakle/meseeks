@@ -40,8 +40,8 @@ const routeList: RouteProps[] = [
     label: "Testimonials",
   },
   {
-    href: "#contact",
-    label: "Contact",
+    href: "#pricing",
+    label: "Pricing",
   },
   {
     href: "#faq",
@@ -127,7 +127,7 @@ export const Navbar = () => {
       <NavigationMenu className="hidden lg:block mx-auto">
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="bg-card text-base">
+            <NavigationMenuTrigger className="bg-card text-sm">
               Features
             </NavigationMenuTrigger>
             <NavigationMenuContent>

@@ -38,11 +38,7 @@ export default function SignUpViewPage() {
       </div>
       <div className="flex h-full items-center justify-center p-4 lg:p-8">
         <div className="flex w-full max-w-md flex-col items-center justify-center space-y-6">
-          <ClerkSignUpForm
-            initialValues={{
-              emailAddress: "your_mail+clerk_test@example.com",
-            }}
-          />
+          <ClerkSignUpForm />
           <p className="text-muted-foreground px-8 text-center text-sm">
             By clicking continue, you agree to our{" "}
             <Link
