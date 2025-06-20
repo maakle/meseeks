@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ApiKeysModule } from './api-keys/api-keys.module';
 import { AudioModule } from './audio/audio.module';
 import { AuthModule } from './auth/auth.module';
+import { ClerkModule } from './clerk/clerk.module';
 import { MessageModule } from './message/message.module';
 import { OpenaiModule } from './openai/openai.module';
 import { OrganizationsModule } from './organizations/organizations.module';
@@ -23,6 +24,7 @@ import { ClerkClientProvider } from './common/providers/clerk-client.provider';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    ClerkModule,
     PrismaModule,
     WhatsappModule,
     OpenaiModule,
