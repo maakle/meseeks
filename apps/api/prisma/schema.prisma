@@ -48,7 +48,7 @@ model Organization {
 }
 
 model OrganizationMembership {
-  id             String       @id @default(uuid())
+  id             String       @id @default(cuid())
   userId         String
   organizationId String
   role           String

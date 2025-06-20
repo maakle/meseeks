@@ -25,11 +25,16 @@ export const OrganizationDataSchema = z
     logo_url: z.string().nullable(),
     created_at: z.number(),
     updated_at: z.number(),
-    created_by: z.string().nullable(),
+    created_by: z.string().nullable().optional(),
     object: z.literal('organization'),
     public_metadata: z.record(z.any()).optional(),
     private_metadata: z.record(z.any()).optional(),
     unsafe_metadata: z.record(z.any()).optional(),
+    has_image: z.boolean().optional(),
+    max_allowed_memberships: z.number().optional(),
+    members_count: z.number().optional(),
+    pending_invitations_count: z.number().optional(),
+    admin_delete_enabled: z.boolean().optional(),
   })
   .passthrough();
 
@@ -108,6 +113,7 @@ export const PublicUserDataSchema = z.object({
   last_name: z.string().nullable(),
   image_url: z.string().nullable(),
   profile_image_url: z.string().nullable(),
+  has_image: z.boolean().optional(),
 });
 
 // Organization membership data schema
@@ -120,6 +126,9 @@ export const OrganizationMembershipDataSchema = z
     role: z.string(),
     created_at: z.number(),
     updated_at: z.number(),
+    role_name: z.string().optional(),
+    permissions: z.array(z.string()).optional(),
+    public_metadata: z.record(z.any()).optional(),
   })
   .passthrough();
 
