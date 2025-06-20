@@ -16,7 +16,6 @@ import { WhatsappModule } from './whatsapp/whatsapp.module';
 import { APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { ZodValidationPipe } from 'nestjs-zod';
 import { AppController } from './app.controller';
-import { ApiKeyGuard } from './auth/guards/api-key.guard';
 import { CombinedAuthGuard } from './auth/guards/combined-auth.guard';
 import { ClerkClientProvider } from './common/providers/clerk-client.provider';
 
@@ -41,7 +40,6 @@ import { ClerkClientProvider } from './common/providers/clerk-client.provider';
   controllers: [AppController],
   providers: [
     ClerkClientProvider,
-    ApiKeyGuard,
     {
       provide: APP_GUARD,
       useClass: CombinedAuthGuard,
