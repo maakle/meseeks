@@ -96,16 +96,9 @@ export class WebhookController {
         )?.email_address
       : data.email_addresses[0]?.email_address;
 
-    const primaryPhone = data.primary_phone_number_id
-      ? data.phone_numbers.find(
-          (phone) => phone.id === data.primary_phone_number_id,
-        )?.phone_number
-      : data.phone_numbers[0]?.phone_number;
-
     const upsertDto: UpsertClerkUserDto = {
       clerkUserId: data.id,
       email: primaryEmail || null,
-      phoneNumber: primaryPhone || null,
     };
 
     await this.userService.upsertClerkUser(upsertDto);

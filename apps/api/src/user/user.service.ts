@@ -62,11 +62,9 @@ export class UserService {
       where: { clerkUserId: dto.clerkUserId },
       create: {
         clerkUserId: dto.clerkUserId,
-        phoneNumber: dto.phoneNumber,
         email: dto.email,
       },
       update: {
-        phoneNumber: dto.phoneNumber,
         email: dto.email,
       },
     });
