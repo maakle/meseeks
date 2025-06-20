@@ -6,6 +6,8 @@ export const UserResponseSchema = z.object({
   id: z.string(),
   phoneNumber: z.string().nullable(),
   email: z.string().nullable(),
+  firstName: z.string().nullable(),
+  lastName: z.string().nullable(),
 });
 
 export class UserResponseDto extends createZodDto(UserResponseSchema) {}
@@ -15,5 +17,7 @@ export const mapToUserResponseDto = (prisma: User): UserResponseDto => {
     id: prisma.id,
     phoneNumber: prisma.phoneNumber,
     email: prisma.email,
+    firstName: prisma.firstName,
+    lastName: prisma.lastName,
   });
 };

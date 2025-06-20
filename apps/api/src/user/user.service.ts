@@ -50,8 +50,15 @@ export class UserService {
   async upsertUser(dto: UpsertUserDto): Promise<UserResponseDto> {
     const user = await this.prisma.user.upsert({
       where: { phoneNumber: dto.phoneNumber },
-      create: { phoneNumber: dto.phoneNumber },
-      update: {},
+      create: {
+        phoneNumber: dto.phoneNumber,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+      },
+      update: {
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+      },
     });
 
     return mapToUserResponseDto(user);
@@ -63,9 +70,13 @@ export class UserService {
       create: {
         clerkUserId: dto.clerkUserId,
         email: dto.email,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
       },
       update: {
         email: dto.email,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
       },
     });
 

@@ -13,6 +13,8 @@ model User {
   clerkUserId String?                  @unique
   phoneNumber String?                  @unique
   email       String?                  @unique
+  firstName   String?
+  lastName    String?
   messages    Message[]
   memberships OrganizationMembership[]
   createdAt   DateTime                 @default(now())

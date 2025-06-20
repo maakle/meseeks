@@ -7,6 +7,8 @@ export const UpsertUserSchema = z.object({
   phoneNumber: z.string().regex(phoneNumberRegex, {
     message: 'Phone number must be in E.164 format (e.g., +1234567890)',
   }),
+  firstName: z.string().nullable().optional(),
+  lastName: z.string().nullable().optional(),
 });
 
 export class UpsertUserDto extends createZodDto(UpsertUserSchema) {}
