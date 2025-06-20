@@ -16,20 +16,22 @@ export const BaseEventSchema = z.object({
 });
 
 // Common organization data schema
-export const OrganizationDataSchema = z.object({
-  id: z.string(),
-  name: z.string().nullable(),
-  slug: z.string().nullable(),
-  image_url: z.string().nullable(),
-  logo_url: z.string().nullable(),
-  created_at: z.number(),
-  updated_at: z.number(),
-  created_by: z.string().nullable(),
-  object: z.literal('organization'),
-  public_metadata: z.record(z.any()).optional(),
-  private_metadata: z.record(z.any()).optional(),
-  unsafe_metadata: z.record(z.any()).optional(),
-});
+export const OrganizationDataSchema = z
+  .object({
+    id: z.string(),
+    name: z.string().nullable(),
+    slug: z.string().nullable(),
+    image_url: z.string().nullable(),
+    logo_url: z.string().nullable(),
+    created_at: z.number(),
+    updated_at: z.number(),
+    created_by: z.string().nullable(),
+    object: z.literal('organization'),
+    public_metadata: z.record(z.any()).optional(),
+    private_metadata: z.record(z.any()).optional(),
+    unsafe_metadata: z.record(z.any()).optional(),
+  })
+  .passthrough();
 
 // Deleted organization data schema
 export const DeletedOrganizationDataSchema = z.object({
@@ -109,15 +111,17 @@ export const PublicUserDataSchema = z.object({
 });
 
 // Organization membership data schema
-export const OrganizationMembershipDataSchema = z.object({
-  id: z.string(),
-  object: z.literal('organization_membership'),
-  organization: OrganizationDataSchema,
-  public_user_data: PublicUserDataSchema,
-  role: z.string(),
-  created_at: z.number(),
-  updated_at: z.number(),
-});
+export const OrganizationMembershipDataSchema = z
+  .object({
+    id: z.string(),
+    object: z.literal('organization_membership'),
+    organization: OrganizationDataSchema,
+    public_user_data: PublicUserDataSchema,
+    role: z.string(),
+    created_at: z.number(),
+    updated_at: z.number(),
+  })
+  .passthrough();
 
 // Generic function to create event schemas
 export const createEventSchema = <T extends z.ZodTypeAny>(

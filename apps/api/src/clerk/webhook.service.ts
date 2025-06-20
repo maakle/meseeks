@@ -294,11 +294,23 @@ export class WebhookService {
       role: data.role,
     };
 
-    await this.organizationMembershipService.upsertClerkOrganizationMembership(
-      upsertDto,
-    );
     this.logger.log(
-      `${action} organization membership with Clerk ID: ${data.id}`,
+      `Attempting to ${action.toLowerCase()} organization membership with data: ${JSON.stringify(upsertDto)}`,
     );
+
+    try {
+      await this.organizationMembershipService.upsertClerkOrganizationMembership(
+        upsertDto,
+      );
+      this.logger.log(
+        `${action} organization membership with Clerk ID: ${data.id}`,
+      );
+    } catch (error) {
+      this.logger.error(
+        `Failed to ${action.toLowerCase()} organization membership with Clerk ID ${data.id}:`,
+        error,
+      );
+      throw error;
+    }
   }
 }
