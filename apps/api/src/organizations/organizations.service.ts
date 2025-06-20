@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { CreateOrganizationDto } from './dto/create-organization.dto';
 import {
   mapToOrganizationResponseDto,
   OrganizationResponseDto,
 } from './dto/organization-response.dto';
-import { CreateOrganizationDto } from './dto/create-organization.dto';
 
 @Injectable()
 export class OrganizationsService {
@@ -13,7 +13,9 @@ export class OrganizationsService {
   async create(dto: CreateOrganizationDto): Promise<OrganizationResponseDto> {
     const organization = await this.prisma.organization.create({
       data: {
+        clerkOrganizationId: dto.clerkOrganizationId,
         name: dto.name,
+        slug: dto.slug,
       },
       include: {
         apiKeys: true,

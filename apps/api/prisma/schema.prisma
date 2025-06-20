@@ -9,13 +9,14 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  phoneNumber String?   @unique
-  email       String?   @unique
-  password    String?
+  id          String                   @id @default(cuid())
+  clerkUserId String?                  @unique
+  phoneNumber String?                  @unique
+  email       String?                  @unique
   messages    Message[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  memberships OrganizationMembership[]
+  createdAt   DateTime                 @default(now())
+  updatedAt   DateTime                 @updatedAt
 }
 
 model Message {
@@ -31,25 +32,41 @@ model Message {
 }
 
 model Organization {
-  id          String   @id @default(cuid())
-  name        String
-  apiKeys     ApiKey[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                  String                   @id @default(cuid())
+  clerkOrganizationId String                   @unique
+  memberships         OrganizationMembership[]
+  name                String
+  slug                String
+  apiKeys             ApiKey[]
+  createdAt           DateTime                 @default(now())
+  updatedAt           DateTime                 @updatedAt
+}
+
+model OrganizationMembership {
+  id             String       @id @default(uuid())
+  userId         String
+  organizationId String
+  role           String
+  user           User         @relation(fields: [userId], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@unique([userId, organizationId])
 }
 
 model ApiKey {
-  id            String      @id @default(cuid())
-  name          String      
-  prefix        String      
-  hashedKey     String      
-  organization  Organization @relation(fields: [organizationId], references: [id])
+  id             String       @id @default(cuid())
+  name           String
+  prefix         String
+  hashedKey      String
+  organization   Organization @relation(fields: [organizationId], references: [id])
   organizationId String
-  lastUsedAt    DateTime?   
-  expiresAt     DateTime?   
-  isActive      Boolean     @default(true)
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  lastUsedAt     DateTime?
+  expiresAt      DateTime?
+  isActive       Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
 
   @@index([prefix])
   @@index([organizationId])
