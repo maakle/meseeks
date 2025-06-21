@@ -270,6 +270,9 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.1.8
         version: 1.2.7(@types/react-dom@19.1.0)(@types/react@19.1.0)(react-dom@19.1.0)(react@19.1.0)
+      '@radix-ui/react-visually-hidden':
+        specifier: ^1.2.3
+        version: 1.2.3(@types/react-dom@19.1.0)(@types/react@19.1.0)(react-dom@19.1.0)(react@19.1.0)
       '@sentry/nextjs':
         specifier: ^9.19.0
         version: 9.30.0(@opentelemetry/context-async-hooks@2.0.1)(@opentelemetry/core@2.0.1)(@opentelemetry/instrumentation@0.200.0)(@opentelemetry/sdk-trace-base@2.0.1)(next@15.3.2)(react@19.1.0)(webpack@5.99.9)

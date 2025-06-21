@@ -34,9 +34,9 @@ import PreferencesModal from "@/features/preferences/preferences-modal";
 import ProfileModal from "@/features/profile/components/profile-modal";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { OrganizationSwitcher, SignOutButton, useUser } from "@clerk/nextjs";
+import { CaretSortIcon } from "@radix-ui/react-icons";
 import {
   IconChevronRight,
-  IconChevronsDown,
   IconLogout,
   IconUserCircle,
 } from "@tabler/icons-react";
@@ -171,7 +171,7 @@ export default function AppSidebar() {
                       user={user}
                     />
                   )}
-                  <IconChevronsDown className="ml-auto size-4" />
+                  <CaretSortIcon className="ml-auto size-4" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
