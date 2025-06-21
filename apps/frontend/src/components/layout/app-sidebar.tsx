@@ -30,57 +30,69 @@ import {
 } from "@/components/ui/sidebar";
 import { UserAvatarProfile } from "@/components/user-avatar-profile";
 import { navItems } from "@/constants/data";
+import PreferencesModal from "@/features/preferences/preferences-modal";
+import ProfileModal from "@/features/profile/components/profile-modal";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { SignOutButton, useUser } from "@clerk/nextjs";
+import { OrganizationSwitcher, SignOutButton, useUser } from "@clerk/nextjs";
 import {
   IconChevronRight,
   IconChevronsDown,
-  IconCreditCard,
   IconLogout,
-  IconPhotoUp,
   IconUserCircle,
 } from "@tabler/icons-react";
-import { CogIcon } from "lucide-react";
+import { Settings2 } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import * as React from "react";
 import { Icons } from "../icons";
-import { OrgSwitcher } from "../org-switcher";
-export const company = {
-  name: "Acme Inc",
-  logo: IconPhotoUp,
-  plan: "Enterprise",
-};
-
-const tenants = [
-  { id: "1", name: "Acme Inc" },
-  { id: "2", name: "Beta Corp" },
-  { id: "3", name: "Gamma Ltd" },
-];
 
 export default function AppSidebar() {
   const pathname = usePathname();
   const { isOpen } = useMediaQuery();
   const { user } = useUser();
-  const router = useRouter();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const handleSwitchTenant = (_tenantId: string) => {
-    // Tenant switching functionality would be implemented here
-  };
-
-  const activeTenant = tenants[0];
+  const [isProfileModalOpen, setIsProfileModalOpen] = React.useState(false);
+  const [isPreferencesModalOpen, setIsPreferencesModalOpen] =
+    React.useState(false);
 
   React.useEffect(() => {
     // Side effects based on sidebar state changes
   }, [isOpen]);
 
+  const handleProfileClick = () => {
+    setIsProfileModalOpen(true);
+  };
+
+  const handleProfileModalClose = () => {
+    setIsProfileModalOpen(false);
+  };
+
+  const handlePreferencesClick = () => {
+    setIsPreferencesModalOpen(true);
+  };
+
+  const handlePreferencesModalClose = () => {
+    setIsPreferencesModalOpen(false);
+  };
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <OrgSwitcher
-          tenants={tenants}
-          defaultTenant={activeTenant}
-          onTenantSwitch={handleSwitchTenant}
+        <OrganizationSwitcher
+          appearance={{
+            elements: {
+              rootBox: {
+                width: "100%",
+                height: "2.5rem",
+              },
+              button: {
+                width: "100%",
+                justifyContent: "space-between",
+              },
+            },
+          }}
+          afterCreateOrganizationUrl="/dashboard/overview"
+          afterLeaveOrganizationUrl="/dashboard/overview"
+          afterSelectOrganizationUrl="/dashboard/overview"
         />
       </SidebarHeader>
       <SidebarContent className="overflow-x-hidden">
@@ -182,24 +194,14 @@ export default function AppSidebar() {
                 <DropdownMenuSeparator />
 
                 <DropdownMenuGroup>
-                  <DropdownMenuItem
-                    onClick={() => router.push("/dashboard/profile")}
-                  >
+                  <DropdownMenuItem onClick={handleProfileClick}>
                     <IconUserCircle className="mr-2 h-4 w-4" />
                     Profile
                   </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => router.push("/dashboard/billing")}
-                  >
-                    <IconCreditCard className="mr-2 h-4 w-4" />
-                    Billing
-                  </DropdownMenuItem>
 
-                  <DropdownMenuItem
-                    onClick={() => router.push("/dashboard/settings")}
-                  >
-                    <CogIcon className="mr-2 h-4 w-4" />
-                    Settings
+                  <DropdownMenuItem onClick={handlePreferencesClick}>
+                    <Settings2 className="mr-2 h-4 w-4" />
+                    Preferences
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
@@ -212,6 +214,14 @@ export default function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
+      <ProfileModal
+        isOpen={isProfileModalOpen}
+        onClose={handleProfileModalClose}
+      />
+      <PreferencesModal
+        isOpen={isPreferencesModalOpen}
+        onClose={handlePreferencesModalClose}
+      />
       <SidebarRail />
     </Sidebar>
   );
