@@ -57,7 +57,7 @@ export const navItems: NavItem[] = [
   },
   {
     title: 'Settings',
-    url: '/dashboard/api',
+    url: '/dashboard/settings',
     icon: 'settings',
     shortcut: ['s', 's'],
     isActive: false,
