@@ -1,16 +1,23 @@
-'use client';
+"use client";
 
-import * as Sentry from '@sentry/nextjs';
-import NextError from 'next/error';
-import { useEffect } from 'react';
+import NextError from "next/error";
+import { useEffect } from "react";
 
 export default function GlobalError({
-  error
+  error,
 }: {
   error: Error & { digest?: string };
 }) {
   useEffect(() => {
-    Sentry.captureException(error);
+    // Only capture exceptions in production to avoid OpenTelemetry warnings
+    if (
+      process.env.NODE_ENV === "production" &&
+      !process.env.NEXT_PUBLIC_SENTRY_DISABLED
+    ) {
+      import("@sentry/nextjs").then((Sentry) => {
+        Sentry.captureException(error);
+      });
+    }
   }, [error]);
 
   return (
