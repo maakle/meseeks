@@ -93,8 +93,29 @@ export class OrganizationsService {
   async deleteOrganizationByClerkId(
     clerkOrganizationId: string,
   ): Promise<void> {
-    await this.prisma.organization.delete({
-      where: { clerkOrganizationId },
+    await this.prisma.$transaction(async (tx) => {
+      // First, delete all organization memberships
+      await tx.organizationMembership.deleteMany({
+        where: {
+          organization: {
+            clerkOrganizationId,
+          },
+        },
+      });
+
+      // Then, delete all API keys
+      await tx.apiKey.deleteMany({
+        where: {
+          organization: {
+            clerkOrganizationId,
+          },
+        },
+      });
+
+      // Finally, delete the organization
+      await tx.organization.delete({
+        where: { clerkOrganizationId },
+      });
     });
   }
 }

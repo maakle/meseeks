@@ -73,33 +73,31 @@ export class WebhookService {
     }
   }
 
+  private logInvalidEventStructure(eventType: string): void {
+    this.logger.warn(`Received ${eventType} event with invalid data structure`);
+  }
+
   async handleUserEvent(event: any): Promise<void> {
     switch (event.type) {
       case 'user.created':
         if (isUserCreatedEvent(event)) {
           await this.handleUserCreated(event);
         } else {
-          this.logger.warn(
-            'Received user.created event with invalid data structure',
-          );
+          this.logInvalidEventStructure('user.created');
         }
         break;
       case 'user.updated':
         if (isUserUpdatedEvent(event)) {
           await this.handleUserUpdated(event);
         } else {
-          this.logger.warn(
-            'Received user.updated event with invalid data structure',
-          );
+          this.logInvalidEventStructure('user.updated');
         }
         break;
       case 'user.deleted':
         if (isUserDeletedEvent(event)) {
           await this.handleUserDeleted(event);
         } else {
-          this.logger.warn(
-            'Received user.deleted event with invalid data structure',
-          );
+          this.logInvalidEventStructure('user.deleted');
         }
         break;
       default:
@@ -113,27 +111,21 @@ export class WebhookService {
         if (isOrganizationCreatedEvent(event)) {
           await this.handleOrganizationCreated(event);
         } else {
-          this.logger.warn(
-            'Received organization.created event with invalid data structure',
-          );
+          this.logInvalidEventStructure('organization.created');
         }
         break;
       case 'organization.updated':
         if (isOrganizationUpdatedEvent(event)) {
           await this.handleOrganizationUpdated(event);
         } else {
-          this.logger.warn(
-            'Received organization.updated event with invalid data structure',
-          );
+          this.logInvalidEventStructure('organization.updated');
         }
         break;
       case 'organization.deleted':
         if (isOrganizationDeletedEvent(event)) {
           await this.handleOrganizationDeleted(event);
         } else {
-          this.logger.warn(
-            'Received organization.deleted event with invalid data structure',
-          );
+          this.logInvalidEventStructure('organization.deleted');
         }
         break;
       default:
@@ -149,27 +141,21 @@ export class WebhookService {
         if (isOrganizationMembershipCreatedEvent(event)) {
           await this.handleOrganizationMembershipCreated(event);
         } else {
-          this.logger.warn(
-            'Received organizationMembership.created event with invalid data structure',
-          );
+          this.logInvalidEventStructure('organizationMembership.created');
         }
         break;
       case 'organizationMembership.updated':
         if (isOrganizationMembershipUpdatedEvent(event)) {
           await this.handleOrganizationMembershipUpdated(event);
         } else {
-          this.logger.warn(
-            'Received organizationMembership.updated event with invalid data structure',
-          );
+          this.logInvalidEventStructure('organizationMembership.updated');
         }
         break;
       case 'organizationMembership.deleted':
         if (isOrganizationMembershipDeletedEvent(event)) {
           await this.handleOrganizationMembershipDeleted(event);
         } else {
-          this.logger.warn(
-            'Received organizationMembership.deleted event with invalid data structure',
-          );
+          this.logInvalidEventStructure('organizationMembership.deleted');
         }
         break;
       default:
