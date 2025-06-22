@@ -1,10 +1,12 @@
-import { createZodDto } from 'nestjs-zod';
-import z from 'zod';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString, MinLength } from 'class-validator';
 
-export const CreateOrganizationSchema = z.object({
-  name: z.string().min(1, 'Organization name is required'),
-});
-
-export class CreateOrganizationDto extends createZodDto(
-  CreateOrganizationSchema,
-) {}
+export class CreateOrganizationDto {
+  @ApiProperty({
+    description: 'Organization name',
+    example: 'Acme Corp'
+  })
+  @IsString()
+  @MinLength(1, { message: 'Organization name is required' })
+  name!: string;
+}

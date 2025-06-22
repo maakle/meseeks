@@ -1,9 +1,20 @@
-import z from 'zod';
-import { createZodDto } from 'nestjs-zod';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsDateString, IsOptional, IsString } from 'class-validator';
 
-export const CreateApiKeySchema = z.object({
-  name: z.string().min(1, 'API key name is required'),
-  expiresAt: z.string().datetime().optional(),
-});
+export class CreateApiKeyDto {
+  @ApiProperty({
+    description: 'API key name',
+    example: 'Production API Key'
+  })
+  @IsString()
+  name!: string;
 
-export class CreateApiKeyDto extends createZodDto(CreateApiKeySchema) {}
+  @ApiProperty({
+    description: 'Expiration date (ISO string)',
+    example: '2024-12-31T23:59:59.000Z',
+    required: false
+  })
+  @IsOptional()
+  @IsDateString()
+  expiresAt?: string;
+}

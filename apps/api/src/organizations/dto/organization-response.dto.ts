@@ -1,29 +1,43 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
+import { IsArray, IsString, ValidateNested } from 'class-validator';
+import { ApiKey, Organization } from 'generated/prisma/client';
 import {
   ApiKeyResponseDto,
   mapToApiKeyResponseDto,
 } from '../../api-keys/dto/api-key-response.dto';
-import { Organization, ApiKey } from 'generated/prisma/client';
-import { createZodDto } from 'nestjs-zod';
-import z from 'zod';
 
-export const OrganizationResponseSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  apiKeys: z.array(z.custom<ApiKeyResponseDto>()),
-});
+export class OrganizationResponseDto {
+  @ApiProperty({
+    description: 'Organization ID',
+    example: 'clx1234567890abcdef'
+  })
+  @IsString()
+  id!: string;
 
-export class OrganizationResponseDto extends createZodDto(
-  OrganizationResponseSchema,
-) {}
+  @ApiProperty({
+    description: 'Organization name',
+    example: 'Acme Corp'
+  })
+  @IsString()
+  name!: string;
 
-type OrganizationWithApiKeys = Organization & { apiKeys: ApiKey[] };
+  @ApiProperty({
+    description: 'Organization API keys',
+    type: [ApiKeyResponseDto]
+  })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ApiKeyResponseDto)
+  apiKeys!: ApiKeyResponseDto[];
+}
 
 export const mapToOrganizationResponseDto = (
-  prisma: OrganizationWithApiKeys,
+  prisma: Organization & { apiKeys: ApiKey[] }
 ): OrganizationResponseDto => {
-  return OrganizationResponseDto.create({
+  return {
     id: prisma.id,
     name: prisma.name,
     apiKeys: prisma.apiKeys.map(mapToApiKeyResponseDto),
-  });
+  };
 };

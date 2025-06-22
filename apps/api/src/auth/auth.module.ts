@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
-import { ZodValidationPipe } from 'nestjs-zod';
 import { ClerkClientProvider } from '../common/providers/clerk-client.provider';
 import { PrismaModule } from '../prisma/prisma.module';
 import { AuthService } from './auth.service';
@@ -13,10 +12,9 @@ import { ApiKeyGuard } from './guards/api-key.guard';
     AuthService,
     ApiKeyGuard,
     ClerkStrategy,
-    ZodValidationPipe,
     ClerkClientProvider,
   ],
   controllers: [],
   exports: [AuthService, ApiKeyGuard, PassportModule],
 })
-export class AuthModule {}
+export class AuthModule { }

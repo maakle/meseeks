@@ -11,8 +11,8 @@ import { StabilityaiModule } from './stabilityai/stabilityai.module';
 import { UserModule } from './user/user.module';
 import { WhatsappModule } from './whatsapp/whatsapp.module';
 
+import { ValidationPipe } from '@nestjs/common';
 import { APP_GUARD, APP_PIPE } from '@nestjs/core';
-import { ZodValidationPipe } from 'nestjs-zod';
 import { AppController } from './app.controller';
 import { ApiKeyGuard } from './auth/guards/api-key.guard';
 import { CombinedAuthGuard } from './auth/guards/combined-auth.guard';
@@ -44,8 +44,8 @@ import { ClerkClientProvider } from './common/providers/clerk-client.provider';
     },
     {
       provide: APP_PIPE,
-      useClass: ZodValidationPipe,
+      useClass: ValidationPipe,
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }
