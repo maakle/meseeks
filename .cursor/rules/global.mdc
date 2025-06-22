@@ -1,0 +1,58 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Global Project Rules
+
+<!--
+  This rules file applies to the entire monorepo project.
+-->
+
+## Monorepo Structure
+
+This is a Turborepo monorepo with the following structure:
+- `apps/api/` - Backend API (NestJS, Prisma)
+- `apps/frontend/` - Frontend application (Next.js)
+- `packages/` - Shared packages and configurations
+
+## General Development Standards
+
+### Code Quality
+- Write clean, maintainable, and well-documented code
+- Follow TypeScript best practices
+- Use meaningful variable and function names
+- Implement proper error handling
+- Write tests for critical functionality
+
+### Git & Version Control
+- Use conventional commit messages
+- Keep commits focused and atomic
+- Write descriptive commit messages
+- Use feature branches for new development
+
+### Documentation
+- Keep README files up to date
+- Document API endpoints and interfaces
+- Include setup and deployment instructions
+- Document environment variables and configuration
+
+### Performance & Security
+- Follow security best practices
+- Optimize for performance where appropriate
+- Use environment variables for sensitive data
+- Implement proper input validation
+
+### Collaboration
+- Review code before merging
+- Provide constructive feedback
+- Follow established coding standards
+- Communicate changes and breaking updates
+
+## Turborepo Best Practices
+
+- Use Turborepo's caching effectively
+- Define proper task dependencies
+- Keep build outputs clean and organized
+- Use shared configurations from packages/
+- Follow the established task naming conventions

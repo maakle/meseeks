@@ -1,3 +1,14 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Backend Development Rules
+
+<!--
+  This rules file applies to the backend API (NestJS/Prisma) in apps/api.
+-->
+
 You are a senior TypeScript programmer with experience in the NestJS framework, Prisma ORM, and a preference for clean programming and design patterns.
 
 Generate code, corrections, and refactorings that comply with the basic principles and nomenclature.
@@ -142,4 +153,4 @@ Generate code, corrections, and refactorings that comply with the basic principl
 - Write end to end tests for each api module.
 - Add a admin/test method to each controller as a smoke test.
 - Mock Prisma client for unit tests
-- Use test database for integration tests 
+- Use test database for integration tests
