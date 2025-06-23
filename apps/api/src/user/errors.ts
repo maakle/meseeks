@@ -1,7 +1,7 @@
-import { NotFoundException, BadRequestException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 export class UserNotFoundError extends NotFoundException {
-  constructor(identifier: string, type: 'id' | 'phoneNumber') {
+  constructor(identifier: string, type: 'id' | 'phoneNumber' | 'clerkUserId') {
     super(`User not found with ${type}: ${identifier}`);
   }
 }

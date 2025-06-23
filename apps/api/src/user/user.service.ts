@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { UpsertClerkUserDto } from '../clerk/dto/upsert-clerk-user.dto';
 import { HandleServiceErrors } from '../common/decorators/error-handler.decorator';
 import { PrismaService } from '../prisma/prisma.service';
 import { UpsertUserDto } from './dto/upsert-user';
@@ -34,13 +35,65 @@ export class UserService {
     return mapToUserResponseDto(user);
   }
 
+  async findUserByClerkId(clerkUserId: string): Promise<UserResponseDto> {
+    const user = await this.prisma.user.findUnique({
+      where: { clerkUserId },
+    });
+
+    if (!user) {
+      throw new UserNotFoundError(clerkUserId, 'clerkUserId');
+    }
+
+    return mapToUserResponseDto(user);
+  }
+
   async upsertUser(dto: UpsertUserDto): Promise<UserResponseDto> {
     const user = await this.prisma.user.upsert({
       where: { phoneNumber: dto.phoneNumber },
-      create: { phoneNumber: dto.phoneNumber },
-      update: {},
+      create: {
+        phoneNumber: dto.phoneNumber,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+      },
+      update: {
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+      },
     });
 
     return mapToUserResponseDto(user);
+  }
+
+  async upsertClerkUser(dto: UpsertClerkUserDto): Promise<UserResponseDto> {
+    const user = await this.prisma.user.upsert({
+      where: { clerkUserId: dto.clerkUserId },
+      create: {
+        clerkUserId: dto.clerkUserId,
+        email: dto.email,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+      },
+      update: {
+        email: dto.email,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+      },
+    });
+
+    return mapToUserResponseDto(user);
+  }
+
+  async deleteUserByClerkId(clerkUserId: string): Promise<void> {
+    const user = await this.prisma.user.findUnique({
+      where: { clerkUserId },
+    });
+
+    if (!user) {
+      throw new UserNotFoundError(clerkUserId, 'clerkUserId');
+    }
+
+    await this.prisma.user.delete({
+      where: { clerkUserId },
+    });
   }
 }

@@ -50,7 +50,7 @@ export function ThemeSwitch() {
 
   if (!mounted) {
     return (
-      <Button variant="secondary" size="icon" className="size-8">
+      <Button variant="outline" size="icon" className="size-8">
         <IconBrightness className="size-4" />
         <span className="sr-only">Theme</span>
       </Button>
@@ -78,7 +78,7 @@ export function ThemeSwitch() {
   return (
     <DropdownMenu data-theme={resolvedTheme}>
       <DropdownMenuTrigger asChild>
-        <Button variant="secondary" className="h-8 px-3">
+        <Button variant="outline" className="h-8 px-3">
           {getCurrentThemeIcon()}
           <span className="ml-2">{getCurrentThemeText()}</span>
           <span className="sr-only">Theme</span>

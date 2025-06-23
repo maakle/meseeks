@@ -27,6 +27,24 @@ export class UserResponseDto {
   @IsOptional()
   @IsString()
   email!: string | null;
+
+  @ApiProperty({
+    description: 'User first name',
+    example: 'John',
+    nullable: true
+  })
+  @IsOptional()
+  @IsString()
+  firstName!: string | null;
+
+  @ApiProperty({
+    description: 'User last name',
+    example: 'Doe',
+    nullable: true
+  })
+  @IsOptional()
+  @IsString()
+  lastName!: string | null;
 }
 
 export const mapToUserResponseDto = (prisma: User): UserResponseDto => {
@@ -34,5 +52,7 @@ export const mapToUserResponseDto = (prisma: User): UserResponseDto => {
     id: prisma.id,
     phoneNumber: prisma.phoneNumber,
     email: prisma.email,
-  };
+    firstName: prisma.firstName,
+    lastName: prisma.lastName,
+  }
 };

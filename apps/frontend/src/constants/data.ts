@@ -11,6 +11,24 @@ export type Product = {
   updated_at: string;
 };
 
+// Example of how to add a child item to the sidebar
+  // {
+  //   title: 'Account',
+  //   url: '#', // Placeholder as there is no direct link for the parent
+  //   icon: 'billing',
+  //   isActive: true,
+
+  //   items: [
+  //     {
+  //       title: 'Profile',
+  //       url: '/dashboard/profile',
+  //       icon: 'userPen',
+  //       shortcut: ['m', 'm']
+  //     },
+  //   ]
+  // },
+
+
 //Info: The following data is used for the sidebar navigation and Cmd K bar.
 export const navItems: NavItem[] = [
   {
@@ -23,32 +41,11 @@ export const navItems: NavItem[] = [
   },
   {
     title: 'Product',
-    url: '/dashboard/product',
+    url: '/dashboard/products',
     icon: 'product',
     shortcut: ['p', 'p'],
     isActive: false,
     items: [] // No child items
-  },
-  {
-    title: 'Account',
-    url: '#', // Placeholder as there is no direct link for the parent
-    icon: 'billing',
-    isActive: true,
-
-    items: [
-      {
-        title: 'Profile',
-        url: '/dashboard/profile',
-        icon: 'userPen',
-        shortcut: ['m', 'm']
-      },
-      {
-        title: 'Login',
-        shortcut: ['l', 'l'],
-        url: '/',
-        icon: 'login'
-      }
-    ]
   },
   {
     title: 'Kanban',
@@ -59,10 +56,10 @@ export const navItems: NavItem[] = [
     items: [] // No child items
   },
   {
-    title: 'API',
-    url: '/dashboard/api',
-    icon: 'terminal',
-    shortcut: ['a', 'a'],
+    title: 'Settings',
+    url: '/dashboard/settings',
+    icon: 'settings',
+    shortcut: ['s', 's'],
     isActive: false,
   }
 ];

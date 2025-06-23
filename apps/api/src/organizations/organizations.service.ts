@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { UpsertClerkOrganizationDto } from '../clerk/dto/upsert-clerk-organization.dto';
 import { PrismaService } from '../prisma/prisma.service';
+import { CreateOrganizationDto } from './dto/create-organization.dto';
 import {
   mapToOrganizationResponseDto,
   OrganizationResponseDto,
 } from './dto/organization-response.dto';
-import { CreateOrganizationDto } from './dto/create-organization.dto';
 
 @Injectable()
 export class OrganizationsService {
@@ -13,7 +14,9 @@ export class OrganizationsService {
   async create(dto: CreateOrganizationDto): Promise<OrganizationResponseDto> {
     const organization = await this.prisma.organization.create({
       data: {
+        clerkOrganizationId: dto.clerkOrganizationId,
         name: dto.name,
+        slug: dto.slug,
       },
       include: {
         apiKeys: true,
@@ -57,5 +60,62 @@ export class OrganizationsService {
     });
 
     return mapToOrganizationResponseDto(organization);
+  }
+
+  async upsertClerkOrganization(
+    dto: UpsertClerkOrganizationDto,
+  ): Promise<OrganizationResponseDto> {
+    const organization = await this.prisma.organization.upsert({
+      where: { clerkOrganizationId: dto.clerkOrganizationId },
+      update: {
+        name: dto.name || '',
+        slug: dto.slug || '',
+        imageUrl: dto.imageUrl,
+        logoUrl: dto.logoUrl,
+        createdBy: dto.createdBy,
+      },
+      create: {
+        clerkOrganizationId: dto.clerkOrganizationId,
+        name: dto.name || '',
+        slug: dto.slug || '',
+        imageUrl: dto.imageUrl,
+        logoUrl: dto.logoUrl,
+        createdBy: dto.createdBy,
+      },
+      include: {
+        apiKeys: true,
+      },
+    });
+
+    return mapToOrganizationResponseDto(organization);
+  }
+
+  async deleteOrganizationByClerkId(
+    clerkOrganizationId: string,
+  ): Promise<void> {
+    await this.prisma.$transaction(async (tx) => {
+      // First, delete all organization memberships
+      await tx.organizationMembership.deleteMany({
+        where: {
+          organization: {
+            clerkOrganizationId,
+          },
+        },
+      });
+
+      // Then, delete all API keys
+      await tx.apiKey.deleteMany({
+        where: {
+          organization: {
+            clerkOrganizationId,
+          },
+        },
+      });
+
+      // Finally, delete the organization
+      await tx.organization.delete({
+        where: { clerkOrganizationId },
+      });
+    });
   }
 }

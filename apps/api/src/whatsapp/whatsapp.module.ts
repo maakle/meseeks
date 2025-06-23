@@ -4,12 +4,12 @@ import { UserService } from '@/user/user.service';
 import { Module } from '@nestjs/common';
 import { OpenaiService } from '../openai/openai.service';
 import { StabilityaiService } from '../stabilityai/stabilityai.service';
-import { WhatsappController } from './whatsapp.controller';
+import { WhatsappWebhookController } from './webhook.controller';
 import { WhatsappService } from './whatsapp.service';
 
 @Module({
   imports: [MessageModule],
-  controllers: [WhatsappController],
+  controllers: [WhatsappWebhookController],
   providers: [
     OpenaiService,
     WhatsappService,

@@ -13,4 +13,20 @@ export class UpsertUserDto {
     message: 'Phone number must be in E.164 format (e.g., +1234567890)',
   })
   phoneNumber!: string;
+
+  @ApiProperty({
+    description: 'First name',
+    example: 'John',
+    required: false
+  })
+  @IsString()
+  firstName?: string;
+
+  @ApiProperty({
+    description: 'Last name',
+    example: 'Doe',
+    required: false
+  })
+  @IsString()
+  lastName?: string;
 }

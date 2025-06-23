@@ -23,6 +23,37 @@ export class OrganizationResponseDto {
   name!: string;
 
   @ApiProperty({
+    description: 'Organization slug',
+    example: 'acme-corp'
+  })
+  @IsString()
+  slug!: string;
+
+  @ApiProperty({
+    description: 'Organization image URL',
+    example: 'https://example.com/image.jpg',
+    nullable: true
+  })
+  @IsString()
+  imageUrl!: string | null;
+
+  @ApiProperty({
+    description: 'Organization logo URL',
+    example: 'https://example.com/logo.png',
+    nullable: true
+  })
+  @IsString()
+  logoUrl!: string | null;
+
+  @ApiProperty({
+    description: 'User ID who created the organization',
+    example: 'clx1234567890abcdef',
+    nullable: true
+  })
+  @IsString()
+  createdBy!: string | null;
+
+  @ApiProperty({
     description: 'Organization API keys',
     type: [ApiKeyResponseDto]
   })
@@ -38,6 +69,10 @@ export const mapToOrganizationResponseDto = (
   return {
     id: prisma.id,
     name: prisma.name,
+    slug: prisma.slug,
+    imageUrl: prisma.imageUrl,
+    logoUrl: prisma.logoUrl,
+    createdBy: prisma.createdBy,
     apiKeys: prisma.apiKeys.map(mapToApiKeyResponseDto),
   };
 };

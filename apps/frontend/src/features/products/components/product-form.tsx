@@ -2,7 +2,7 @@
 
 import { FileUploader } from "@/components/file-uploader";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -49,7 +49,6 @@ const formSchema = z.object({
     message: "Product name must be at least 2 characters.",
   }),
   category: z.string(),
-  price: z.number(),
   description: z.string().min(10, {
     message: "Description must be at least 10 characters.",
   }),
@@ -57,15 +56,14 @@ const formSchema = z.object({
 
 export default function ProductForm({
   initialData,
-  pageTitle,
+  onSubmit,
 }: {
   initialData: Product | null;
-  pageTitle: string;
+  onSubmit?: () => void;
 }) {
   const defaultValues = {
     name: initialData?.name || "",
     category: initialData?.category || "",
-    price: initialData?.price || 0,
     description: initialData?.description || "",
   };
 
@@ -74,20 +72,24 @@ export default function ProductForm({
     values: defaultValues,
   });
 
-  function onSubmit() {
+  function handleSubmit(values: z.infer<typeof formSchema>) {
     // Form submission logic would be implemented here
+    console.log("Form submitted:", values);
+
+    // Call the onSubmit callback if provided
+    if (onSubmit) {
+      onSubmit();
+    }
   }
 
   return (
     <Card className="mx-auto w-full">
-      <CardHeader>
-        <CardTitle className="text-left text-2xl font-bold">
-          {pageTitle}
-        </CardTitle>
-      </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="space-y-8"
+          >
             <FormField
               control={form.control}
               name="image"
@@ -153,24 +155,6 @@ export default function ProductForm({
                         </SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Price</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        step="0.01"
-                        placeholder="Enter price"
-                        {...field}
-                      />
-                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}

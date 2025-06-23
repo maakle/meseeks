@@ -1,12 +1,12 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
-import { catchError, lastValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
-import { OpenaiService } from '../openai/openai.service';
+import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 import axios, { AxiosRequestConfig } from 'axios';
+import { existsSync, mkdirSync, writeFileSync } from 'fs';
 import * as path from 'path';
-import { writeFileSync, existsSync, mkdirSync } from 'fs';
-import { convertToIntlPhonenumber } from './util';
+import { catchError, lastValueFrom, map } from 'rxjs';
 import { HandleServiceErrors } from '../common/decorators/error-handler.decorator';
+import { OpenaiService } from '../openai/openai.service';
+import { convertToIntlPhonenumber } from './util';
 
 @Injectable()
 @HandleServiceErrors(WhatsappService.name)

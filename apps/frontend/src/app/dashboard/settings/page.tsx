@@ -1,33 +1,21 @@
-import { ThemeSwitch } from "@/components/layout/ThemeToggle/theme-switch";
-import { ThemeSelector } from "@/components/theme-selector";
-import { Card } from "@/components/ui/card";
-import { Heading } from "@/components/ui/heading";
+import NavigationBar, { NavItem } from "@/components/ui/navigation-bar";
+import { ApiKeysManagement } from "@/features/settings/components/api-keys-management";
 
 export const metadata = {
   title: "Dashboard : Settings",
 };
 
+const navItems: NavItem[] = [
+  { id: "api-keys", label: "API Keys", href: "/dashboard/settings" },
+];
+
 export default async function Page() {
   return (
-    <div className="min-h-screen p-8">
-      <Card className="max-w-2xl px-6">
-        <Heading title="Settings" description="Manage your settings" />
-
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <div className="text-sm font-medium">Color Mode</div>
-            <div className="flex gap-2">
-              <ThemeSwitch />
-            </div>
-          </div>
-          <div className="space-y-2">
-            <div className="text-sm font-medium">Theme</div>
-            <div className="flex gap-2">
-              <ThemeSelector />
-            </div>
-          </div>
-        </div>
-      </Card>
-    </div>
+    <>
+      <NavigationBar items={navItems} defaultActiveId="api-keys" />
+      <div className="p-8 flex flex-col gap-8">
+        <ApiKeysManagement />
+      </div>
+    </>
   );
 }

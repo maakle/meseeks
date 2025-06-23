@@ -3,8 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import { ApiKeysModule } from './api-keys/api-keys.module';
 import { AudioModule } from './audio/audio.module';
 import { AuthModule } from './auth/auth.module';
+import { ClerkModule } from './clerk/clerk.module';
 import { MessageModule } from './message/message.module';
 import { OpenaiModule } from './openai/openai.module';
+import { OrganizationMembershipModule } from './organization-membership/organization-membership.module';
 import { OrganizationsModule } from './organizations/organizations.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { StabilityaiModule } from './stabilityai/stabilityai.module';
@@ -14,7 +16,6 @@ import { WhatsappModule } from './whatsapp/whatsapp.module';
 import { ValidationPipe } from '@nestjs/common';
 import { APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { AppController } from './app.controller';
-import { ApiKeyGuard } from './auth/guards/api-key.guard';
 import { CombinedAuthGuard } from './auth/guards/combined-auth.guard';
 import { ClerkClientProvider } from './common/providers/clerk-client.provider';
 
@@ -23,6 +24,7 @@ import { ClerkClientProvider } from './common/providers/clerk-client.provider';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    ClerkModule,
     PrismaModule,
     WhatsappModule,
     OpenaiModule,
@@ -32,12 +34,12 @@ import { ClerkClientProvider } from './common/providers/clerk-client.provider';
     MessageModule,
     AuthModule,
     OrganizationsModule,
+    OrganizationMembershipModule,
     ApiKeysModule,
   ],
   controllers: [AppController],
   providers: [
     ClerkClientProvider,
-    ApiKeyGuard,
     {
       provide: APP_GUARD,
       useClass: CombinedAuthGuard,
