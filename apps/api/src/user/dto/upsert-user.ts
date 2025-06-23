@@ -1,14 +1,32 @@
-import { createZodDto } from 'nestjs-zod';
-import z from 'zod';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString, Matches } from 'class-validator';
 
 export const phoneNumberRegex = /^\+[1-9]\d{1,14}$/;
 
-export const UpsertUserSchema = z.object({
-  phoneNumber: z.string().regex(phoneNumberRegex, {
+export class UpsertUserDto {
+  @ApiProperty({
+    description: 'Phone number in E.164 format',
+    example: '+1234567890'
+  })
+  @IsString()
+  @Matches(phoneNumberRegex, {
     message: 'Phone number must be in E.164 format (e.g., +1234567890)',
-  }),
-  firstName: z.string().nullable().optional(),
-  lastName: z.string().nullable().optional(),
-});
+  })
+  phoneNumber!: string;
 
-export class UpsertUserDto extends createZodDto(UpsertUserSchema) {}
+  @ApiProperty({
+    description: 'First name',
+    example: 'John',
+    required: false
+  })
+  @IsString()
+  firstName?: string;
+
+  @ApiProperty({
+    description: 'Last name',
+    example: 'Doe',
+    required: false
+  })
+  @IsString()
+  lastName?: string;
+}
