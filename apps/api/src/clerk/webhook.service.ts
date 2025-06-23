@@ -7,25 +7,25 @@ import { OrganizationsService } from '../organizations/organizations.service';
 import { UserService } from '../user/user.service';
 
 import {
-  OrganizationMembershipCreatedEvent,
-  OrganizationMembershipDeletedEvent,
-  OrganizationMembershipUpdatedEvent,
+  OrganizationMembershipCreatedEventDto,
+  OrganizationMembershipDeletedEventDto,
+  OrganizationMembershipUpdatedEventDto,
   isOrganizationMembershipCreatedEvent,
   isOrganizationMembershipDeletedEvent,
   isOrganizationMembershipUpdatedEvent,
 } from './dto/clerk-organization-membership-webhook.dto';
 import {
-  OrganizationCreatedEvent,
-  OrganizationDeletedEvent,
-  OrganizationUpdatedEvent,
+  OrganizationCreatedEventDto,
+  OrganizationDeletedEventDto,
+  OrganizationUpdatedEventDto,
   isOrganizationCreatedEvent,
   isOrganizationDeletedEvent,
   isOrganizationUpdatedEvent,
 } from './dto/clerk-organization-webhook.dto';
 import {
-  UserCreatedEvent,
-  UserDeletedEvent,
-  UserUpdatedEvent,
+  UserCreatedEventDto,
+  UserDeletedEventDto,
+  UserUpdatedEventDto,
   isUserCreatedEvent,
   isUserDeletedEvent,
   isUserUpdatedEvent,
@@ -43,7 +43,7 @@ export class WebhookService {
     private readonly organizationsService: OrganizationsService,
     private readonly organizationMembershipService: OrganizationMembershipService,
     private readonly configService: ConfigService,
-  ) {}
+  ) { }
 
   async verifyWebhookSignature(request: Request): Promise<void> {
     const webhookSecret = this.configService.get<string>(
@@ -165,52 +165,52 @@ export class WebhookService {
     }
   }
 
-  private async handleUserCreated(event: UserCreatedEvent): Promise<void> {
+  private async handleUserCreated(event: UserCreatedEventDto): Promise<void> {
     await this.upsertUserFromClerkData(event.data, 'Created');
   }
 
-  private async handleUserUpdated(event: UserUpdatedEvent): Promise<void> {
+  private async handleUserUpdated(event: UserUpdatedEventDto): Promise<void> {
     await this.upsertUserFromClerkData(event.data, 'Updated');
   }
 
-  private async handleUserDeleted(event: UserDeletedEvent): Promise<void> {
+  private async handleUserDeleted(event: UserDeletedEventDto): Promise<void> {
     await this.userService.deleteUserByClerkId(event.data.id);
     this.logger.log(`Deleted user with Clerk ID: ${event.data.id}`);
   }
 
   private async handleOrganizationCreated(
-    event: OrganizationCreatedEvent,
+    event: OrganizationCreatedEventDto,
   ): Promise<void> {
     await this.upsertOrganizationFromClerkData(event.data, 'Created');
   }
 
   private async handleOrganizationUpdated(
-    event: OrganizationUpdatedEvent,
+    event: OrganizationUpdatedEventDto,
   ): Promise<void> {
     await this.upsertOrganizationFromClerkData(event.data, 'Updated');
   }
 
   private async handleOrganizationDeleted(
-    event: OrganizationDeletedEvent,
+    event: OrganizationDeletedEventDto,
   ): Promise<void> {
     await this.organizationsService.deleteOrganizationByClerkId(event.data.id);
     this.logger.log(`Deleted organization with Clerk ID: ${event.data.id}`);
   }
 
   private async handleOrganizationMembershipCreated(
-    event: OrganizationMembershipCreatedEvent,
+    event: OrganizationMembershipCreatedEventDto,
   ): Promise<void> {
     await this.upsertOrganizationMembershipFromClerkData(event.data, 'Created');
   }
 
   private async handleOrganizationMembershipUpdated(
-    event: OrganizationMembershipUpdatedEvent,
+    event: OrganizationMembershipUpdatedEventDto,
   ): Promise<void> {
     await this.upsertOrganizationMembershipFromClerkData(event.data, 'Updated');
   }
 
   private async handleOrganizationMembershipDeleted(
-    event: OrganizationMembershipDeletedEvent,
+    event: OrganizationMembershipDeletedEventDto,
   ): Promise<void> {
     await this.organizationMembershipService.deleteOrganizationMembershipByClerkIds(
       event.data.public_user_data.user_id,
@@ -222,20 +222,20 @@ export class WebhookService {
   }
 
   private async upsertUserFromClerkData(
-    data: UserCreatedEvent['data'] | UserUpdatedEvent['data'],
+    data: UserCreatedEventDto['data'] | UserUpdatedEventDto['data'],
     action: 'Created' | 'Updated',
   ): Promise<void> {
     // Extract primary email and phone number
     const primaryEmail = data.primary_email_address_id
       ? data.email_addresses.find(
-          (email) => email.id === data.primary_email_address_id,
-        )?.email_address
+        (email: any) => email.id === data.primary_email_address_id,
+      )?.email_address
       : data.email_addresses[0]?.email_address;
 
     const primaryPhone = data.primary_phone_number_id
       ? data.phone_numbers.find(
-          (phone) => phone.id === data.primary_phone_number_id,
-        )?.phone_number
+        (phone: any) => phone.id === data.primary_phone_number_id,
+      )?.phone_number
       : data.phone_numbers[0]?.phone_number;
 
     const upsertDto: UpsertClerkUserDto = {
@@ -251,7 +251,7 @@ export class WebhookService {
   }
 
   private async upsertOrganizationFromClerkData(
-    data: OrganizationCreatedEvent['data'] | OrganizationUpdatedEvent['data'],
+    data: OrganizationCreatedEventDto['data'] | OrganizationUpdatedEventDto['data'],
     action: 'Created' | 'Updated',
   ): Promise<void> {
     const upsertDto: UpsertClerkOrganizationDto = {
@@ -269,8 +269,8 @@ export class WebhookService {
 
   private async upsertOrganizationMembershipFromClerkData(
     data:
-      | OrganizationMembershipCreatedEvent['data']
-      | OrganizationMembershipUpdatedEvent['data'],
+      | OrganizationMembershipCreatedEventDto['data']
+      | OrganizationMembershipUpdatedEventDto['data'],
     action: 'Created' | 'Updated',
   ): Promise<void> {
     const upsertDto: UpsertClerkOrganizationMembershipDto = {

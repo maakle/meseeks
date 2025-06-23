@@ -1,9 +1,13 @@
-import { z } from 'zod';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsString, MinLength } from 'class-validator';
 
-export const UpdateOrganizationMembershipRoleSchema = z.object({
-  role: z.string().min(1, 'Role is required'),
-});
-
-export type UpdateOrganizationMembershipRoleDto = z.infer<
-  typeof UpdateOrganizationMembershipRoleSchema
->;
+export class UpdateOrganizationMembershipRoleDto {
+  @ApiProperty({
+    description: 'Role for the organization membership',
+    example: 'admin',
+    minLength: 1
+  })
+  @IsString()
+  @MinLength(1, { message: 'Role is required' })
+  role!: string;
+}
