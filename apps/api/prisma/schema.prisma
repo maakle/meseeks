@@ -43,6 +43,7 @@ model Organization {
   logoUrl             String?
   createdBy           String?
   apiKeys             ApiKey[]
+  products            Product[]
   createdAt           DateTime                 @default(now())
   updatedAt           DateTime                 @updatedAt
 }
@@ -75,4 +76,47 @@ model ApiKey {
 
   @@index([prefix])
   @@index([organizationId])
+}
+
+model Product {
+  id             String       @id @default(cuid())
+  name           String
+  category       String
+  description    String
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  images         File[]       @relation("ProductImages")
+
+  @@index([organizationId])
+  @@index([category])
+}
+
+enum FileEntityType {
+  Product
+}
+
+model File {
+  id       String  @id @default(cuid())
+  name     String
+  key      String // Cloud storage path (S3, Cloudinary, etc.)
+  width    Int? // only there when it is image
+  height   Int? // only there when it is image
+  mimeType String // image/jpeg, application/pdf, etc.
+  size     Int // File size in bytes
+  altText  String? // For accessibility
+
+  Product Product? @relation("ProductImages", fields: [entityId], references: [id])
+
+  // Polymorphic relationship using discriminator
+  entityType FileEntityType
+  entityId   String // ID of the related entity
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([entityType, entityId])
+  @@index([mimeType])
+  @@index([createdAt])
 }
