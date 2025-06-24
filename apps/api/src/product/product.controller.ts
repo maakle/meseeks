@@ -2,17 +2,31 @@ import {
   Body,
   Controller,
   Delete,
+  FileTypeValidator,
   Get,
   HttpCode,
   HttpStatus,
+  MaxFileSizeValidator,
   Param,
+  ParseFilePipe,
   Post,
   Put,
   Query,
+  UploadedFiles,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CombinedAuthGuard } from '../auth/guards/combined-auth.guard';
+import { UploadFilesResponseDto } from '../common/dto/upload-files.dto';
+import { FileUploadInterceptor } from '../common/interceptors/file-upload.interceptor';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductResponseDto } from './dto/product-response.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -38,6 +52,95 @@ export class ProductController {
     @Query('organizationId') organizationId: string,
   ): Promise<ProductResponseDto> {
     return this.productService.createProduct(createProductDto, organizationId);
+  }
+
+  @Post(':id/files')
+  @UseInterceptors(FilesInterceptor('files', 10)) // Max 10 files
+  @UseInterceptors(FileUploadInterceptor)
+  @ApiOperation({ summary: 'Upload files for a product' })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Files to upload',
+    schema: {
+      type: 'object',
+      properties: {
+        files: {
+          type: 'array',
+          items: {
+            type: 'string',
+            format: 'binary',
+          },
+          description: 'Files to upload (max 10 files, 10MB each)',
+        },
+        altTexts: {
+          type: 'array',
+          items: {
+            type: 'string',
+          },
+          description: 'Alt text for each file (optional)',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'Files uploaded successfully',
+    type: UploadFilesResponseDto,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request - Invalid file type or size',
+  })
+  @ApiResponse({ status: 404, description: 'Product not found' })
+  @ApiResponse({ status: 401, description: 'Unauthorized - Invalid API key' })
+  async uploadProductFiles(
+    @Param('id') productId: string,
+    @Query('organizationId') organizationId: string,
+    @UploadedFiles(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 10 * 1024 * 1024 }), // 10MB
+          new FileTypeValidator({
+            fileType: '.(jpg|jpeg|png|webp|gif|pdf|txt)',
+          }),
+        ],
+      }),
+    )
+    files: Express.Multer.File[],
+    @Body('altTexts') altTexts?: string[],
+  ): Promise<UploadFilesResponseDto> {
+    const uploadedFiles = await this.productService.uploadProductFiles(
+      productId,
+      organizationId,
+      files,
+      altTexts,
+    );
+
+    return {
+      files: uploadedFiles,
+      totalFiles: uploadedFiles.length,
+    };
+  }
+
+  @Delete(':productId/files/:fileId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Delete a file from a product' })
+  @ApiResponse({
+    status: 204,
+    description: 'File deleted successfully',
+  })
+  @ApiResponse({ status: 404, description: 'Product or file not found' })
+  @ApiResponse({ status: 401, description: 'Unauthorized - Invalid API key' })
+  async deleteProductFile(
+    @Param('productId') productId: string,
+    @Param('fileId') fileId: string,
+    @Query('organizationId') organizationId: string,
+  ): Promise<void> {
+    return this.productService.deleteProductFile(
+      productId,
+      organizationId,
+      fileId,
+    );
   }
 
   @Get()

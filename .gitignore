@@ -3,6 +3,7 @@
 /node_modules
 /build
 /.turbo
+/packages/config-eslint/node_modules
 
 # Logs
 logs
