@@ -5,16 +5,18 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { AuthService } from './auth.service';
 import { ClerkStrategy } from './clerk.strategy';
 import { ApiKeyGuard } from './guards/api-key.guard';
+import { CombinedAuthGuard } from './guards/combined-auth.guard';
 
 @Module({
   imports: [PrismaModule, PassportModule],
   providers: [
     AuthService,
     ApiKeyGuard,
+    CombinedAuthGuard,
     ClerkStrategy,
     ClerkClientProvider,
   ],
   controllers: [],
-  exports: [AuthService, ApiKeyGuard, PassportModule],
+  exports: [AuthService, ApiKeyGuard, CombinedAuthGuard, PassportModule],
 })
-export class AuthModule { }
+export class AuthModule {}
