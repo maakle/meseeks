@@ -65,7 +65,7 @@ Generate code, corrections, and refactorings that comply with the basic principl
 ### Data
 
 - Don't abuse primitive types and encapsulate data in composite types.
-- Avoid data validations in functions and use Zod schemas for validation.
+- Avoid data validations in functions and use class-validator decorators for validation.
 - Prefer immutability for data.
   - Use readonly for data that doesn't change.
   - Use as const for literals that don't change.
@@ -108,8 +108,8 @@ Generate code, corrections, and refactorings that comply with the basic principl
   - One module per main domain/route.
   - One controller for its route.
     - And other controllers for secondary routes.
-  - A models folder with data types.
-    - Zod schemas for input validation.
+  - A dto folder with data transfer objects.
+    - class-validator decorators for input validation.
     - Declare simple types for outputs.
   - A services module with business logic and persistence.
     - Use Prisma for data persistence.
@@ -136,15 +136,17 @@ Generate code, corrections, and refactorings that comply with the basic principl
   - Field names in camelCase
   - Relation names in camelCase
 
-### Zod Validation
+### Class-Validator Validation
 
-- Create separate validation schemas for each operation
-- Use Zod's built-in validators and custom validators
-- Implement proper error messages
-- Use Zod's type inference for TypeScript types
+- Create separate DTO classes for each operation
+- Use class-validator decorators for validation rules
+- Implement proper error messages using @IsString({ message: 'Custom error message' })
+- Use class-transformer for data transformation
 - Follow naming conventions:
-  - Schema names: createXSchema, updateXSchema, etc.
-  - Type names: CreateXInput, UpdateXInput, etc.
+  - DTO class names: CreateXDto, UpdateXDto, etc.
+  - Response DTO names: XResponseDto, etc.
+- Use validation pipes in controllers with proper configuration
+- Implement custom validators when needed using @Validate decorator
 
 ### Testing
 

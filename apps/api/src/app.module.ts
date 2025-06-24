@@ -18,6 +18,7 @@ import { APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { CombinedAuthGuard } from './auth/guards/combined-auth.guard';
 import { ClerkClientProvider } from './common/providers/clerk-client.provider';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ClerkClientProvider } from './common/providers/clerk-client.provider';
     OrganizationsModule,
     OrganizationMembershipModule,
     ApiKeysModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [
