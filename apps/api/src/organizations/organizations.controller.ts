@@ -1,41 +1,15 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Request,
-  UseGuards
-} from '@nestjs/common';
+import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
 import { OrganizationsService } from './organizations.service';
 
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ApiKeyGuard } from '../auth/guards/api-key.guard';
-import { CreateOrganizationDto } from './dto/create-organization.dto';
+import { CombinedAuthGuard } from '../auth/guards/combined-auth.guard';
 import { OrganizationResponseDto } from './dto/organization-response.dto';
 
 @ApiTags('Organizations')
 @Controller('organizations')
-@UseGuards(ApiKeyGuard)
+@UseGuards(CombinedAuthGuard)
 export class OrganizationsController {
-  constructor(private readonly organizationsService: OrganizationsService) { }
-
-  @Post()
-  @ApiOperation({ summary: 'Create a new organization' })
-  @ApiResponse({
-    status: 201,
-    description: 'Organization created successfully',
-    type: OrganizationResponseDto,
-  })
-  @ApiResponse({ status: 400, description: 'Bad request' })
-  @ApiResponse({ status: 401, description: 'Unauthorized - Invalid API key' })
-  async createOrganization(
-    @Body() createOrganizationDto: CreateOrganizationDto,
-    @Request() req: any,
-  ) {
-    return this.organizationsService.create(createOrganizationDto);
-  }
+  constructor(private readonly organizationsService: OrganizationsService) {}
 
   @Get()
   @ApiOperation({ summary: 'Get all organizations' })

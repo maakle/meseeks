@@ -6,19 +6,19 @@ import {
   Param,
   Post,
   Request,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ApiKeyGuard } from '../auth/guards/api-key.guard';
+import { CombinedAuthGuard } from '../auth/guards/combined-auth.guard';
 import { ApiKeysService } from './api-keys.service';
 import { ApiKeyResponseDto } from './dto/api-key-response.dto';
 import { CreateApiKeyDto } from './dto/create-api-key.dto';
 
 @ApiTags('API Keys')
 @Controller('api-keys')
-@UseGuards(ApiKeyGuard)
+@UseGuards(CombinedAuthGuard)
 export class ApiKeysController {
-  constructor(private readonly apiKeysService: ApiKeysService) { }
+  constructor(private readonly apiKeysService: ApiKeysService) {}
 
   @Post()
   @ApiOperation({ summary: 'Create a new API key' })

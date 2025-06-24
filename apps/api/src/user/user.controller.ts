@@ -6,7 +6,7 @@ import { UserService } from './user.service';
 @ApiTags('Users')
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a user by ID' })
