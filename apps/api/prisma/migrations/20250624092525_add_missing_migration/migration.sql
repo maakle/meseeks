@@ -1,0 +1,2 @@
+-- AddForeignKey
+ALTER TABLE "File" ADD CONSTRAINT "File_entityId_fkey" FOREIGN KEY ("entityId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
