@@ -464,6 +464,19 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
 
+  packages/shared-types:
+    dependencies:
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
+      class-validator:
+        specifier: ^0.14.0
+        version: 0.14.2
+    devDependencies:
+      typescript:
+        specifier: ^5.0.0
+        version: 5.8.3
+
 packages:
 
   /@alloc/quick-lru@5.2.0:
