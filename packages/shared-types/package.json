@@ -1,0 +1,24 @@
+{
+    "name": "@meseeks/shared-types",
+    "version": "0.0.1",
+    "description": "Shared types between API and frontend",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsc",
+        "dev": "tsc --watch",
+        "clean": "rm -rf dist",
+        "type-check": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "class-validator": "^0.14.0",
+        "class-transformer": "^0.5.1",
+        "@nestjs/swagger": "^7.0.0"
+    }
+}
