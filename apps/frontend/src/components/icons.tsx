@@ -17,6 +17,7 @@ import {
   IconLayoutKanban,
   IconLoader2,
   IconLogin,
+  IconMessage,
   IconMoon,
   IconPhoto,
   IconPizza,
@@ -69,4 +70,5 @@ export const Icons = {
   twitter: IconBrandTwitter,
   check: IconCheck,
   terminal: IconTerminal,
+  chat: IconMessage,
 };
