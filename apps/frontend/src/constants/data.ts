@@ -11,23 +11,6 @@ export type Product = {
   updated_at: string;
 };
 
-// Example of how to add a child item to the sidebar
-  // {
-  //   title: 'Account',
-  //   url: '#', // Placeholder as there is no direct link for the parent
-  //   icon: 'billing',
-  //   isActive: true,
-
-  //   items: [
-  //     {
-  //       title: 'Profile',
-  //       url: '/dashboard/profile',
-  //       icon: 'userPen',
-  //       shortcut: ['m', 'm']
-  //     },
-  //   ]
-  // },
-
 
 //Info: The following data is used for the sidebar navigation and Cmd K bar.
 export const navItems: NavItem[] = [
@@ -38,6 +21,14 @@ export const navItems: NavItem[] = [
     isActive: false,
     shortcut: ['d', 'd'],
     items: [] // Empty array as there are no child items for Dashboard
+  },
+  {
+    title: 'Chat',
+    url: '/dashboard/chat',
+    icon: 'chat',
+    shortcut: ['c', 'c'],
+    isActive: false,
+    items: [] // No child items
   },
   {
     title: 'Product',

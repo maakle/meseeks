@@ -4,9 +4,9 @@ import {
   Logger,
 } from '@nestjs/common';
 import { OpenAI } from 'openai';
-import { UserService } from '../user/user.service';
-import { MessageService } from '../message/message.service';
 import { HandleServiceErrors } from '../common/decorators/error-handler.decorator';
+import { MessageService } from '../message/message.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 @HandleServiceErrors(OpenaiService.name)
@@ -14,7 +14,7 @@ export class OpenaiService {
   constructor(
     private readonly userService: UserService,
     private readonly messageService: MessageService,
-  ) {}
+  ) { }
 
   private readonly openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,

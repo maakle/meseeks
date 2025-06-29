@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { AgentModule } from './agent/agent.module';
 import { ApiKeysModule } from './api-keys/api-keys.module';
 import { AudioModule } from './audio/audio.module';
 import { AuthModule } from './auth/auth.module';
@@ -29,6 +30,7 @@ import { ProductModule } from './product/product.module';
     PrismaModule,
     WhatsappModule,
     OpenaiModule,
+    AgentModule,
     StabilityaiModule,
     AudioModule,
     UserModule,
